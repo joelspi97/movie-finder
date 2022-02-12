@@ -3,9 +3,9 @@
 This is a React project that was made just for fun and practice.
 
 To build it I used the following:
--TypeScript
--Redux
--AXIOS
--React Router
--Bootstrap
--Sass
+* TypeScript
+* Redux (+ Thunk)
+* AXIOS
+* React Router
+* Bootstrap
+* Sass
