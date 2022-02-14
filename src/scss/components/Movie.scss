@@ -3,7 +3,7 @@
 .movie {
     background-color: $white;
     margin-bottom: 2rem;
-    padding: 1rem 2rem;
+    padding: 2rem;
 
     a {
         align-items: center;
@@ -23,12 +23,39 @@
         height: 100%;
     }
 
-    h2 {
-        font-size: map-get($fs, 'lg');
+    &__body {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        h2 {
+            font-size: map-get($fs, 'lg');
+            font-weight: 700;
+        }
+    
+        ul {
+            list-style: none;
+            font-size: map-get($fs, 'md');
+            display: flex;
+            padding: 0;
+        }
+
+        li {
+            margin: 0 0.5rem;
+        }
     }
 
-    ul {
-        list-style: none;
-        font-size: map-get($fs, 'md');
+
+    &__score {
+        h2 {
+            font-size: map-get($fs, 'lg');
+            font-weight: 700;
+        }
+
+        p {
+            font-size: map-get($fs, 'lg');
+            margin-bottom: 0;
+        }
     }
 }

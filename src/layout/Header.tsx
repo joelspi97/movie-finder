@@ -7,10 +7,10 @@ import '../scss/layout/Header.scss';
 function Header() {
     return (
       <header className="header container-fluid">
-            <Link to="/" title="Link back to home">
+            <Link className="me-2 me-sm-0" to="/" title="Link back to home">
                 <img src={movieListLogo} alt="Movie List Logo - Link back to home" />
             </Link>
-            <h1 className="d-none d-sm-block">Movie List</h1>
+            <h1>Movie List</h1>
             <img className="header__attribution-img" src={attributionLogo} alt="The Movie Database logo" title="This product uses the TMDB API but is not endorsed or certified by TMDB" />
       </header>
     );

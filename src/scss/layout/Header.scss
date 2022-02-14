@@ -1,21 +1,32 @@
 @import '../abstracts/variables.scss';
+@import '../abstracts/mixins/breakpoint.scss';
 
 .header.container-fluid {
     align-items: center;
     background-color: $dark-grey;
     display: grid;
-    height: 13vh;
+    height: fit-content;
     grid-template-columns: repeat(3, 1fr);
     justify-items: center;
     margin-bottom: 3rem;
     padding: 1rem 3rem;
 
+    @include breakpoint(map-get($project-bp, 'sm')) {
+        grid-template-columns: fit-content(100%);
+    }
+
     a {
         justify-self: self-start;
         grid-column: 1;
+        transition: transform $transition ease-in-out;
         
         img {
             width: 5rem;
+        }
+
+        &:hover,
+        &:focus {
+            transform: scale(1.1);
         }
     }
 
@@ -28,12 +39,20 @@
         grid-column: 2;
         margin-bottom: 0;
         white-space: nowrap;
+
+        @include breakpoint(map-get($project-bp, 'sm')) {
+            justify-self: self-start;
+        }
+
+        @include breakpoint(map-get($project-bp, 'xs')) {
+            display: none;
+        }
     }
 
     .header__attribution-img {
         grid-column: 3;
         justify-self: self-end;
-        height: 2rem;
+        height: 1.2rem;
         width: auto;
     }
 }

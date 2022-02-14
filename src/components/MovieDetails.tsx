@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import '../scss/components/MovieDetails.scss';
 
 function MovieDetails() {
     return (
