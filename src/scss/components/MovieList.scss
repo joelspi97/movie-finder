@@ -1,0 +1,16 @@
+@import '../abstracts/variables.scss';
+
+.movie-list {
+    list-style: none;
+    padding: 0 3rem 1rem;
+    height: 66vh;
+    overflow: auto;
+
+    &__loading {
+        color: $orange;
+        text-align: center;
+        font-size: map-get($fs, 'xl') + 1rem;
+        margin-bottom: 1.5rem;
+        user-select: none;
+    }
+}

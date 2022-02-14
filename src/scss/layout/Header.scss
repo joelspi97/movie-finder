@@ -1,0 +1,39 @@
+@import '../abstracts/variables.scss';
+
+.header.container-fluid {
+    align-items: center;
+    background-color: $dark-grey;
+    display: grid;
+    height: 13vh;
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: center;
+    margin-bottom: 3rem;
+    padding: 1rem 3rem;
+
+    a {
+        justify-self: self-start;
+        grid-column: 1;
+        
+        img {
+            width: 5rem;
+        }
+    }
+
+
+    h1 {
+        color: $orange;
+        font-family: $project-font;
+        font-size: map-get($fs , 'xl');
+        font-weight: 900;
+        grid-column: 2;
+        margin-bottom: 0;
+        white-space: nowrap;
+    }
+
+    .header__attribution-img {
+        grid-column: 3;
+        justify-self: self-end;
+        height: 2rem;
+        width: auto;
+    }
+}

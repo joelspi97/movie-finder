@@ -1,11 +1,19 @@
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import movieListLogo from '../assets/movie-list-logo.png';
+import attributionLogo from '../assets/tmdb-logo.svg';
+import '../scss/layout/Header.scss';
 
 function Header() {
-  return (
-    <header className="container-fluid">
-      Header
-    </header>
-  );
-};
+    return (
+      <header className="header container-fluid">
+            <Link to="/" title="Link back to home">
+                <img src={movieListLogo} alt="Movie List Logo - Link back to home" />
+            </Link>
+            <h1 className="d-none d-sm-block">Movie List</h1>
+            <img className="header__attribution-img" src={attributionLogo} alt="The Movie Database logo" title="This product uses the TMDB API but is not endorsed or certified by TMDB" />
+      </header>
+    );
+  };
 
 export default connect(null, null)(Header);

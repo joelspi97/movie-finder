@@ -2,9 +2,10 @@ import { connect } from 'react-redux';
 
 function PageNotFound() {
     return (
-        <div>
-            PageNotFound
-        </div>
+        <>
+            <h1>Page Not Found</h1>
+            <p>Error code 404</p>
+        </>
     );
 };
 

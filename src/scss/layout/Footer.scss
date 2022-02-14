@@ -1,0 +1,41 @@
+@import '../abstracts/variables.scss';
+@import '../abstracts/mixins/breakpoint.scss';
+
+.footer.container-fluid {
+    background-color: $dark-grey;
+    color: $white;
+    text-align: center;
+    font-size: map-get($fs , 'md');
+    margin-top: auto;
+    padding: 3rem 3rem 2rem;
+
+    img {
+        height: 2rem;
+    }
+
+    .footer__attribution {
+        background-color: $orange;
+        color: $black;
+        font-weight: 900;
+        margin-left: auto;
+        margin-right: auto;
+        width: fit-content;
+        
+        @include breakpoint(map-get($project-bp, 'md')) {
+            width: 100%;
+        }
+    }
+
+    .footer__link-wrapper {
+        background-color: $light-grey;
+
+        p {
+            margin-bottom: 0.5rem;
+        }
+        
+        a {
+            color: $light-blue;
+            font-weight: 700;
+        }
+    }
+}

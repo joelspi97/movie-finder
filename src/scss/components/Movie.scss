@@ -1,0 +1,34 @@
+@import '../abstracts/variables.scss';
+
+.movie {
+    background-color: $white;
+    margin-bottom: 2rem;
+    padding: 1rem 2rem;
+
+    a {
+        align-items: center;
+        color: $dark-grey;
+        display: flex;
+        justify-content: space-between;
+        text-decoration: none;
+
+        &:hover, 
+        &:focus {
+            color: $dark-grey;
+        }
+    }
+
+    img {
+        width: 10rem;
+        height: 100%;
+    }
+
+    h2 {
+        font-size: map-get($fs, 'lg');
+    }
+
+    ul {
+        list-style: none;
+        font-size: map-get($fs, 'md');
+    }
+}

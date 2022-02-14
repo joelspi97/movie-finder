@@ -1,12 +1,22 @@
 import { connect } from 'react-redux';
-import MovieList from '../components/MovieList';
-import DetailedMovie from '../components/DetailedMovie';
+import LoadingAnimation from '../components/LoadingAnimation';
+import ErrorMessage from '../components/ErrorMessage';
 
-function Main() {
+interface MainProps {
+    children: JSX.Element;
+};
+
+function Main(props: MainProps) {
+    const { children } = props;
+
+    const loading = false;
+    const error = false;
+
     return (
         <main className="container-fluid">
-            <MovieList />
-            <DetailedMovie />
+            { children }
+            { loading && <LoadingAnimation /> }
+            { error && <ErrorMessage /> }
         </main>
     );
 };
