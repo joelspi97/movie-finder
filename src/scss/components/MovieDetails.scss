@@ -1,5 +1,65 @@
 @import '../abstracts/variables.scss';
+@import '../abstracts/mixins/breakpoint.scss';
 
-.movie-details {
+.movie-details.container-fluid {
+    padding: 0 3rem 3rem;
+
+    .movie-details__link-wrapper {
+        background-color: $dark-grey;
+        border-radius: 2.5rem;
+        width: fit-content;
+        padding: 0.5rem 1rem;
+
+        a {
+            color: $light-blue;
+            font-size: map-get($fs, 'md');
+            font-weight: 700;
+            text-decoration: none;
+            transition: color $transition ease-in-out;
+
+            &:hover,
+            &:focus {
+                color: $orange;
+            }
+        }
+    }
+
+    .movie-details__header {
+        align-items: center;
+        background-color: $dark-grey;
+        color: $white;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+        padding: 1rem 2rem;
+
+        h2,
+        div {
+            font-size: map-get($fs, 'lg');
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+
+        div {
+            color: $orange;
+        }
+    }
     
+    p {
+        color: $white;
+        font-size: map-get($fs, 'md');
+    }
+
+    img {
+        border-radius: 1rem;
+        width: 100%;
+
+        @include breakpoint(map-get($project-bp, 'lg')) {
+            width: 75%;
+        }
+
+        @include breakpoint(map-get($project-bp, 'sm')) {
+            width: 100%;
+        }
+    }
 }
