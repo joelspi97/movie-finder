@@ -1,8 +1,8 @@
 import { Col, Row } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import '../scss/components/MovieDetails.scss';
 import dummyImg from '../assets/dummy-image.png';
-import { Link } from 'react-router-dom';
 
 function MovieDetails() {
     return (

@@ -7,21 +7,22 @@
     padding: 0;
 }
 
-html {
+html,
+body,
+#root,
+main {
     height: 100%;
+}
+
+html {
     font-size: 62.5%;
 	min-width: 32rem;
 	scroll-behavior: smooth;
 }
 
-body {
-    height: 100%;
-}
-
 #root {
     background-color: $light-grey;
     display: flex;
-    height: 100%;
     flex-direction: column;
 }
 

@@ -1,0 +1,43 @@
+@import '../abstracts/variables.scss';
+
+.page-not-found {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: -1.5rem;
+
+    h2 {
+        color: $light-blue;
+        font-size: map-get($fs, 'xl') + 1rem;
+        font-weight: 900;
+        margin-bottom: 2rem;
+    }
+
+    p {
+        color: white;
+        font-size: map-get($fs, 'lg');
+        margin-bottom: 2rem;
+    }
+
+    .movie-details__link-wrapper {
+        background-color: $dark-grey;
+        border-radius: 2.5rem;
+        width: fit-content;
+        padding: 0.5rem 1rem;
+
+        a {
+            color: $light-blue;
+            font-size: map-get($fs, 'md');
+            font-weight: 700;
+            text-decoration: none;
+            transition: color $transition ease-in-out;
+
+            &:hover,
+            &:focus {
+                color: $orange;
+            }
+        }
+    }
+}
