@@ -1,16 +1,16 @@
 interface MovieState {
-    URL: string,
+  URL: string,
 };
 
 const initialState: MovieState = {
-    URL: '',
+  URL: '',
 };
 
 function reducer(state = initialState, action: any): MovieState {
-    switch(action.type) {
-        default:
-            return state;
-    };
+  switch (action.type) {
+    default:
+      return state;
+  };
 };
 
 export default reducer;

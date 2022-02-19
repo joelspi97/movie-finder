@@ -16,10 +16,17 @@
     .footer__attribution {
         background-color: $orange;
         color: $black;
+        display: block;
         font-weight: 900;
         margin-left: auto;
         margin-right: auto;
+        text-decoration: none;
         width: fit-content;
+
+        &:hover,
+        &:focus {
+            color: #000000;
+        }
         
         @include breakpoint(map-get($project-bp, 'md')) {
             width: 100%;
