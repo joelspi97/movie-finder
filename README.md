@@ -1,4 +1,4 @@
-# Movie-list project
+# Movie-finder project
 
 This is a React project that was made just for fun and practice.
 
