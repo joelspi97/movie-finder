@@ -10,7 +10,7 @@ function Header() {
       <Link className="me-2 me-sm-0" to="/" title="Link back to home">
         <img src={movieListLogo} alt="Movie List Logo - Link back to home" />
       </Link>
-      <h1>Movie List</h1>
+      <h1>Movie Finder</h1>
     </header>
   );
 };

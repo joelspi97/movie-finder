@@ -43,6 +43,8 @@ function MovieList() {
 
   return (
     <>
+      <h2>Explicacion de la pagina</h2>
+      <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi, officiis.</p>
       <input 
         type="text" 
         placeholder="Search movies by title..."

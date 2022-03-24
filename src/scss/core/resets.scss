@@ -8,9 +8,9 @@
 }
 
 html,
-body,
+.body,
 #root,
-main {
+.main {
     height: 100%;
 }
 
@@ -20,12 +20,16 @@ html {
 	scroll-behavior: smooth;
 }
 
+.body {
+    background-color: $dark-grey;
+}
+
 #root {
     background-color: $light-grey;
     display: flex;
     flex-direction: column;
 }
 
-main {
+.main {
     background-color: $light-grey;
 }

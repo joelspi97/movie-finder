@@ -13,7 +13,7 @@ function Main(props: MainProps) {
   const error = false;
 
   return (
-    <main className="container-fluid">
+    <main className="main container-fluid">
       {children}
       {loading && <LoadingAnimation />}
       {error && <ErrorMessage />}

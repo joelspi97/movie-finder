@@ -4,7 +4,7 @@ import '../scss/layout/Footer.scss';
 
 function Footer() {
   return (
-    <footer className="footer container-fluid">
+    <footer id="footer" className="footer container-fluid">
       <a href="http://www.omdbapi.com/" className="footer__attribution rounded-pill mb-4 py-3 px-5">This project uses the OMDB API</a>
       <Row className="justify-content-around">
         <Col
