@@ -1,0 +1,29 @@
+El proyecto consiste en dos partes:
+
+1) Ver un listado de peliculas obtenidos desde una API
+2) Una lista de detalles para cada película
+
+1)  API = http://www.omdbapi.com/
+    Tiene que ser un infinite scroll.
+    Cada elemento tiene que tener: 
+    - Una imagen
+    - Título
+    - Puntaje
+    - Si se hace click en un elemento, que te 
+      mande a la vista detallada del mismo
+
+2)  La vista detallada tiene que tener:
+    - Una imagen
+    - Título
+    - Sinopsis
+    - Representación gráfica del puntaje 
+    - Ser capaz de modificar el puntaje (además 
+      hay que mostrarle al usuario una página de
+      themoviedb para obtener permisos para hacerlo)
+
+¿Aprender Jest?
+Guía avanzada Redux para reducir boilerplate
+
+
+** Tareas pendientes **
+Agregar _ en los archivos sass
