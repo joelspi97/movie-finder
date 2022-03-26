@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import movieListLogo from '../assets/movie-list-logo.png';
-import attributionLogo from '../assets/tmdb-logo.svg';
 import '../scss/layout/Header.scss';
 
 function Header() {
