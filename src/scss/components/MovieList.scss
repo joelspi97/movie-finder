@@ -1,19 +1,57 @@
 @import '../abstracts/variables.scss';
 @import '../abstracts/mixins/breakpoint.scss';
+@import '../abstracts/mixins/focus.scss';
 
 .movie-list {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 2rem;
-    list-style: none;
-    padding: 0 3rem 1rem;
-    height: 67vh;
-    overflow: auto;
+    text-align: center;
 
-    @include breakpoint(map-get($project-bp, 'lg')) {
-        grid-template-columns: 1fr;
+    &__text-wrapper {
+        color: $white;
+        padding: 0rem 3rem;
+
+        h2 {
+            font-size: map-get($fs, 'lg');
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        p {
+            font-size: map-get($fs, 'md');
+        }
     }
 
+    &__search-bar {
+        border: 0.2rem solid transparent;
+        font-size: map-get($fs, 'md') + 0.2rem;
+        margin-bottom: 2rem;
+        padding: 1rem;
+        width: 80%;
+
+        &:focus {
+            @include focus($orange, false);
+            border-color: $black;
+        }
+    }
+
+    &__list {
+        height: 67vh;
+        overflow: auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 2rem;
+        list-style: none;
+        margin-bottom: 0;
+        padding: 1rem 3rem 0;
+    
+        @include breakpoint(map-get($project-bp, 'lg')) {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        @include breakpoint(map-get($project-bp, 'md')) {
+            grid-template-columns: 1fr;
+        }
+    }
+    
     &__loading {
         color: $orange;
         text-align: center;

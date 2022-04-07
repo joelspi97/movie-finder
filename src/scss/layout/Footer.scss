@@ -1,5 +1,6 @@
 @import '../abstracts/variables.scss';
 @import '../abstracts/mixins/breakpoint.scss';
+@import '../abstracts/mixins/focus.scss';
 
 .footer.container-fluid {
     background-color: $dark-grey;
@@ -21,12 +22,21 @@
         margin-left: auto;
         margin-right: auto;
         text-decoration: none;
+        transition: background-color $transition ease-in-out,
+                    color $transition ease-in-out;
         width: fit-content;
 
-        &:hover,
-        &:focus {
-            color: #000000;
+        &:hover {
+            background-color: $light-blue;
+            color: $dark-grey;
         }
+        
+        &:focus {
+            @include focus($orange, false);
+            background-color: $light-blue;
+            color: $dark-grey;
+        }
+
         
         @include breakpoint(map-get($project-bp, 'md')) {
             width: 100%;
@@ -46,8 +56,12 @@
             width: fit-content;
             transition: color $transition ease-in-out;
 
-            &:hover,
+            &:hover {
+                color: $orange;
+            }
+
             &:focus {
+                @include focus;
                 color: $orange;
             }
         }

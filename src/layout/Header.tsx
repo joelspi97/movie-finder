@@ -6,7 +6,7 @@ import '../scss/layout/Header.scss';
 function Header() {
   return (
     <header className="header container-fluid">
-      <Link className="me-2 me-sm-0" to="/" title="Link back to home">
+      <Link className="me-2 me-sm-0 rounded" to="/" title="Link back to home">
         <img src={movieListLogo} alt="Movie List Logo - Link back to home" />
       </Link>
       <h1>Movie Finder</h1>

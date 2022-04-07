@@ -25,11 +25,34 @@ html {
 }
 
 #root {
-    background-color: $light-grey;
+    background-color: $dark-grey;
     display: flex;
     flex-direction: column;
 }
 
 .main {
     background-color: $light-grey;
+}
+
+
+/* width */
+::-webkit-scrollbar {
+    width: 1rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: $white;
+    border-radius: 0.25rem; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #989898;
+    border-radius: 0.25rem; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: $orange; 
 }
