@@ -11,7 +11,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   return (
     <BrowserRouter>
-      <a href="#footer">Skip link al footer</a>
+      <div className="skip-link-container">
+        <a className="rounded" href="#footer">Skip to footer</a>
+      </div>
       <Header />
       <Main>
         <Routes>

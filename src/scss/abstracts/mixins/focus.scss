@@ -1,0 +1,15 @@
+@import '../variables.scss';
+
+@mixin focus($color: $orange, $hasGenericSpacing: true, $spacingValue: false) {
+    outline: 0.2rem solid $color;
+
+    @if $hasGenericSpacing {
+        @if $spacingValue {
+            margin: -$spacingValue;
+            padding: $spacingValue;
+        } @else {
+            margin: -0.3rem;
+            padding: 0.3rem;
+        }
+    }
+}

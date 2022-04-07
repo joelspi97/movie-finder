@@ -1,5 +1,6 @@
 @import '../abstracts/variables.scss';
 @import '../abstracts/mixins/breakpoint.scss';
+@import '../abstracts/mixins/focus.scss';
 
 .header.container-fluid {
     align-items: center;
@@ -8,7 +9,6 @@
     height: fit-content;
     grid-template-columns: repeat(3, 1fr);
     justify-items: center;
-    margin-bottom: 3rem;
     padding: 1rem 3rem;
 
     @include breakpoint(map-get($project-bp, 'sm')) {
@@ -19,13 +19,19 @@
         justify-self: self-start;
         grid-column: 1;
         transition: transform $transition ease-in-out;
+        margin: -0.1rem;
+        padding: 0.1rem;
         
         img {
             width: 5rem;
         }
 
-        &:hover,
+        &:hover {
+            transform: scale(1.1);
+        }
+
         &:focus {
+            @include focus($orange, true, 0.1rem);
             transform: scale(1.1);
         }
     }

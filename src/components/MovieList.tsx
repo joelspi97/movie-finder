@@ -1,10 +1,8 @@
 import { useState, useEffect, createRef } from 'react';
 import { connect } from 'react-redux';
 import Movie from './Movie';
-import LoadingAnimation from './LoadingAnimation';
-import ErrorMessage from './ErrorMessage';
-import '../scss/components/MovieList.scss';
 import axios, { Canceler } from 'axios';
+import '../scss/components/MovieList.scss';
 
 function MovieList() {
   const loadingNextPage = true;
@@ -42,16 +40,20 @@ function MovieList() {
   }, [query]);
 
   return (
-    <>
-      <h2>Explicacion de la pagina</h2>
-      <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi, officiis.</p>
+    <div className="movie-list">
+      <div className="movie-list__text-wrapper">
+        <h2>Welcome to Movie Finder!</h2>
+        <p>This website will help you to find information about movies you're interested in.</p>
+        <p>Use the input down below to search for a particular title.</p>
+      </div>
       <input 
+        className="movie-list__search-bar"
         type="text" 
         placeholder="Search movies by title..."
         value={query}
         onChange={e => setQuery(e.target.value)}
       />
-      <ul className="movie-list">
+      <ul>
         {
           movies.map((movie: any, index: number): JSX.Element => {
             if (movies.length === index + 1) {
@@ -83,7 +85,7 @@ function MovieList() {
           )
         }
       </ul>
-    </>
+    </div>
   );
 };
 

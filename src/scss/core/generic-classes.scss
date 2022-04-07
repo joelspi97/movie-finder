@@ -1,0 +1,33 @@
+@import '../abstracts/variables.scss';
+@import '../abstracts/mixins/focus.scss';
+
+.skip-link-container {
+    border-bottom: 0.2rem solid $light-grey;
+    display: flex;
+    height: 7rem;
+    justify-content: center;
+    width: 100%;
+    margin-top: -7rem;
+    transition: margin-top 0.3s ease-in-out;
+
+    a {
+        background-color: $dark-grey;
+        color: $light-blue;
+        font-size: 2rem;
+        text-decoration: none;
+        margin: 1rem 0;
+        padding: 1rem;
+        
+        &:hover {
+            color: $orange;
+        }
+        
+        &:focus {
+            @include focus($orange, false);
+        }
+    }
+
+    &:focus-within {
+        margin-top: 0;
+    }
+}

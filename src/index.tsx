@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './scss/core/resets.scss';
+import './scss/core/generic-classes.scss';
 import App from './App';
 import { Provider } from 'react-redux';
 import store from './store';
