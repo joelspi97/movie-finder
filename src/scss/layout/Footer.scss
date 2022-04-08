@@ -9,6 +9,8 @@
     font-size: map-get($fs , 'md');
     margin-top: auto;
     padding: 3rem 3rem 2rem;
+    position: relative;
+    z-index: 1000;
 
     img {
         height: 2rem;
@@ -38,7 +40,7 @@
         }
 
         
-        @include breakpoint(map-get($project-bp, 'md')) {
+        @include breakpoint(map-get($bp, 'md')) {
             width: 100%;
         }
     }

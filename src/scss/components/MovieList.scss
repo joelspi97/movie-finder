@@ -3,6 +3,7 @@
 @import '../abstracts/mixins/focus.scss';
 
 .movie-list {
+    padding-bottom: 3rem;
     text-align: center;
 
     &__text-wrapper {
@@ -37,17 +38,25 @@
         height: 67vh;
         overflow: auto;
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
         grid-gap: 2rem;
         list-style: none;
         margin-bottom: 0;
         padding: 1rem 3rem 0;
+
+        @include breakpoint(1880px) {
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+
+        @include breakpoint(1300px) {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
     
-        @include breakpoint(map-get($project-bp, 'lg')) {
+        @include breakpoint(map-get($bp, 'lg')) {
             grid-template-columns: 1fr 1fr;
         }
 
-        @include breakpoint(map-get($project-bp, 'md')) {
+        @include breakpoint(map-get($bp, 'md')) {
             grid-template-columns: 1fr;
         }
     }

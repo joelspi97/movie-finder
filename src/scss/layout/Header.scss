@@ -11,7 +11,7 @@
     justify-items: center;
     padding: 1rem 3rem;
 
-    @include breakpoint(map-get($project-bp, 'sm')) {
+    @include breakpoint(map-get($bp, 'sm')) {
         grid-template-columns: fit-content(100%);
     }
 
@@ -46,12 +46,8 @@
         margin-bottom: 0;
         white-space: nowrap;
 
-        @include breakpoint(map-get($project-bp, 'sm')) {
-            justify-self: self-start;
-        }
-
-        @include breakpoint(map-get($project-bp, 'xs')) {
-            display: none;
+        @include breakpoint(map-get($bp, 'sm')) {
+            font-size: map-get($fs , 'lg') + 0.1rem;
         }
     }
 }

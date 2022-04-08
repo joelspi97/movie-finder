@@ -1,4 +1,5 @@
 @import '../abstracts/variables.scss';
+@import '../abstracts/mixins/breakpoint.scss';
 @import '../abstracts/mixins/focus.scss';
 
 .movie {
@@ -7,21 +8,38 @@
     border: 0.15rem solid transparent;
     color: $dark-grey;
     display: flex;
-    max-height: 20rem;
+    height: 100%;
     text-decoration: none;
     transition: color $transition ease-in-out,
                 transform $transition ease-in-out;
-    padding: 2rem;
+    padding: 1rem;
 
-    &--last {
-        margin-bottom: 3rem;
+    @include breakpoint(map-get($bp, 'md')) {
+        justify-content: space-evenly;
+        margin: 0 auto;
+        width: 80%;
+    }
+
+    @include breakpoint(map-get($bp, 'sm')) {
+        flex-direction: column;
+        height: fit-content;
+        width: 70%;
+    }
+    
+    @include breakpoint(map-get($bp, 'xs')) {
+        width: 90%;
+    }
+    
+    @include breakpoint(360px) {
+        margin-left: 0.5rem;
+        width: 100%;
     }
 
     &:hover {
         color: $black;
         transform: scale(1.025);
     }
-     
+    
     &:focus {
         @include focus($orange, false);
         border-color: $black;
@@ -29,45 +47,37 @@
         transform: scale(1.025);
     }
 
+    h2 {
+        font-size: map-get($fs, 'lg');
+        font-weight: 700;
+        width: 22rem;
+
+        @include breakpoint(360px) {
+            width: auto;
+        }
+    }
+
     img {
         margin-right: 2rem;
-        max-height: 16rem;
-        width: 40%;
-    }
+        height: 20rem;
+        width: 50%;
 
-    &__body {
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-
-        h2 {
-            font-size: map-get($fs, 'lg');
-            font-weight: 700;
-        }
-    
-        ul {
-            list-style: none;
-            font-size: map-get($fs, 'md');
-            display: flex;
-            padding: 0;
+        @include breakpoint(map-get($bp, 'md')) {
+            margin-right: 0;
         }
 
-        li {
-            margin: 0 0.5rem;
-        }
-    }
-
-
-    &__score {
-        h2 {
-            font-size: map-get($fs, 'lg');
-            font-weight: 700;
+        @include breakpoint(map-get($bp, 'sm')) {
+            height: 20rem;
+            margin-bottom: 2rem;
+            width: 80%;
         }
 
-        p {
-            font-size: map-get($fs, 'lg');
-            margin-bottom: 0;
+        @include breakpoint(map-get($bp, 'xs')) {
+            width: 90%;
+        }
+
+        @include breakpoint(360px) {
+            width: 100%;
         }
     }
 }

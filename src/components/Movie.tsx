@@ -17,6 +17,7 @@ const Movie = forwardRef((props: MovieProps, ref?: any) => {
   return (
     <li ref={ref}>
       <Link 
+        aria-label={title}
         className={`movie rounded ${lastMovie ? 'movie--last' : ''} `} 
         to="details"
       >

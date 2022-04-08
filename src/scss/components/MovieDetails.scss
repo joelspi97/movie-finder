@@ -1,26 +1,36 @@
 @import '../abstracts/variables.scss';
 @import '../abstracts/mixins/breakpoint.scss';
+@import '../abstracts/mixins/focus.scss';
 
 .movie-details.container-fluid {
     padding: 0 3rem 3rem;
 
-    .movie-details__link-wrapper {
+    @include breakpoint(map-get($bp, 'sm')) {
+        padding: 0 2rem 3rem;
+    }
+
+    @include breakpoint(map-get($bp, 'xs')) {
+        padding: 0 1rem 3rem;
+    }
+
+    .movie-details__link {
         background-color: $dark-grey;
         border-radius: 2.5rem;
-        width: fit-content;
+        color: $light-blue;
+        font-size: map-get($fs, 'md');
+        font-weight: 700;
         padding: 0.5rem 1rem;
+        text-decoration: none;
+        transition: color $transition ease-in-out;
+        width: fit-content;
 
-        a {
-            color: $light-blue;
-            font-size: map-get($fs, 'md');
-            font-weight: 700;
-            text-decoration: none;
-            transition: color $transition ease-in-out;
-
-            &:hover,
-            &:focus {
-                color: $orange;
-            }
+        &:hover {
+            color: $orange;
+        }
+        
+        &:focus {
+            @include focus($orange, false);
+            color: $orange;
         }
     }
 
@@ -54,11 +64,11 @@
         border-radius: 1rem;
         width: 100%;
 
-        @include breakpoint(map-get($project-bp, 'lg')) {
+        @include breakpoint(map-get($bp, 'lg')) {
             width: 75%;
         }
 
-        @include breakpoint(map-get($project-bp, 'sm')) {
+        @include breakpoint(map-get($bp, 'md')) {
             width: 100%;
         }
     }
