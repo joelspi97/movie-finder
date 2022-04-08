@@ -1,4 +1,5 @@
 @import '../abstracts/variables.scss';
+@import '../abstracts/mixins/breakpoint.scss';
 
 * {
     box-sizing: border-box;
@@ -9,9 +10,16 @@
 
 html,
 .body,
-#root,
+#root {
+    height: 100%;
+}
+
 .main {
     height: 100%;
+
+    @include breakpoint(map-get($bp, 'lg')) {
+        height: auto;
+    }
 }
 
 html {
@@ -34,7 +42,7 @@ html {
     background-color: $light-grey;
 }
 
-
+/* Scrollbar styles  */
 /* width */
 ::-webkit-scrollbar {
     width: 1rem;
@@ -56,3 +64,4 @@ html {
 ::-webkit-scrollbar-thumb:hover {
     background: $orange; 
 }
+/* /Scrollbar styles  */

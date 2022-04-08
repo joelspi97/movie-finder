@@ -35,13 +35,13 @@
     }
 
     &__list {
-        height: 67vh;
-        overflow: auto;
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
         grid-gap: 2rem;
         list-style: none;
         margin-bottom: 0;
+        max-height: 67vh;
+        overflow: auto;
         padding: 1rem 3rem 0;
 
         @include breakpoint(1880px) {
