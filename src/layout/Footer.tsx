@@ -6,14 +6,14 @@ function Footer() {
   return (
     <footer id="footer" className="footer container-fluid">
       <a 
-        aria-label="This project uses the OMDB API. Follow this link to visit the OMDB official website"
+        aria-label="This project uses the The Movie Database API but is not endorsed or certified by The Movie Database. Follow this link to visit the The Movie Database website"
         className="footer__attribution rounded-pill mb-4 py-3 px-5"
-        href="https://www.tvmaze.com/api" 
+        href="https://www.themoviedb.org/" 
         rel="noreferrer"
         target="_blank" 
-        title="Visit the TVmaze API documentation website"
+        title="Visit the TMDb website"
       >
-        This project uses the TVmaze API
+        This product uses the TMDB API but is not endorsed or certified by TMDB.
       </a>
       <Row className="justify-content-around">
         <Col

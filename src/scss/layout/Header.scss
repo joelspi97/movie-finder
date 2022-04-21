@@ -11,8 +11,9 @@
     justify-items: center;
     padding: 1rem 3rem;
 
+
     @include breakpoint(map-get($bp, 'sm')) {
-        grid-template-columns: fit-content(100%);
+        padding: 1rem 2rem;
     }
 
     a {
@@ -47,7 +48,21 @@
         white-space: nowrap;
 
         @include breakpoint(map-get($bp, 'sm')) {
-            font-size: map-get($fs , 'lg') + 0.1rem;
+            font-size: calc(10vw - 4.5vw);
+        }
+
+        @include breakpoint(map-get($bp, 'xs')) {
+            font-size: calc(10vw - 3.5vw);
+        }
+    }
+
+    .attribution-logo {
+        justify-self: end;
+        grid-column: 3;
+        width: 7rem;
+
+        @include breakpoint(map-get($bp, 'sm')) {
+            width: 16vw;
         }
     }
 }

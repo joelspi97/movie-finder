@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import movieListLogo from '../assets/movie-list-logo.png';
 import '../scss/layout/Header.scss';
+import tmdbAttributionLogo from '../assets/tmdb-attribution-logo.svg';
 
 function Header() {
   return (
@@ -10,6 +11,7 @@ function Header() {
         <img src={movieListLogo} alt="Movie List Logo - Link back to home" />
       </Link>
       <h1>Movie Finder</h1>
+      <img className="attribution-logo" src={tmdbAttributionLogo} alt="The Movie Database Logo" />
     </header>
   );
 };

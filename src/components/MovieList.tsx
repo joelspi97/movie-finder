@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Movie from './Movie';
 import axios from 'axios';
 import '../scss/components/MovieList.scss';
-import OmdbResponseJson from '../interfaces/omdbJson';
+import OmdbResponseJson from '../interfaces/omdbJson'; // Adaptar esto a tmdb
 
 function MovieList() {
   const [movies, setMovies] = useState<Array<any>>([]);
@@ -15,15 +15,16 @@ function MovieList() {
   const lastMovie = createRef();
 
   useLayoutEffect(() => {
+    const API_KEY = '291a10a46f07867159009943d2d6daa0';
     let moviesUrl: string = 'https://api.tvmaze.com/';
     let controller = new AbortController;
     setLoading(true);
     setApiError(false);
 
     if (query.length > 0) {
-      moviesUrl = moviesUrl.concat(`search/shows?q=${query}`);
+      moviesUrl = moviesUrl.concat(`search/shows?q=${query}`).concat(`?api_key=${API_KEY}`);
     } else {
-      moviesUrl = moviesUrl.concat('shows?page=1');
+      moviesUrl = moviesUrl.concat('shows?page=1').concat(`?api_key=${API_KEY}`);
     }
 
     axios({
