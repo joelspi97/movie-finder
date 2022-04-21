@@ -7,6 +7,7 @@ import OmdbResponseJson from '../interfaces/omdbJson'; // Adaptar esto a tmdb
 
 function MovieList() {
   const [movies, setMovies] = useState<Array<any>>([]);
+  const [page, setPage] = useState<number>(1); // Trabajar esto
   const [query, setQuery] = useState<string>('');
   const [movieNotFound, setMovieNotFound] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -14,17 +15,19 @@ function MovieList() {
 
   const lastMovie = createRef();
 
+  let imageBaseUrl = 'https://image.tmdb.org/t/p/original/';
+
   useLayoutEffect(() => {
     const API_KEY = '291a10a46f07867159009943d2d6daa0';
-    let moviesUrl: string = 'https://api.tvmaze.com/';
+    let moviesUrl = 'https://api.themoviedb.org/3/';
     let controller = new AbortController;
     setLoading(true);
     setApiError(false);
 
     if (query.length > 0) {
-      moviesUrl = moviesUrl.concat(`search/shows?q=${query}`).concat(`?api_key=${API_KEY}`);
+      moviesUrl = moviesUrl.concat(`search/movie?query=${query}&page=${page}`).concat(`&api_key=${API_KEY}`);
     } else {
-      moviesUrl = moviesUrl.concat('shows?page=1').concat(`?api_key=${API_KEY}`);
+      moviesUrl = moviesUrl.concat(`movie/popular?page=${page}`).concat(`&api_key=${API_KEY}`);
     }
 
     axios({
@@ -35,12 +38,12 @@ function MovieList() {
       .then(res => {
         console.log(res.data);
 
-        if(res.data.length === 0) {
+        if(res.data.results.length === 0) {
           setMovieNotFound(true);
           setMovies([]);
         } else {
           setMovieNotFound(false);
-          setMovies(res.data);
+          setMovies(res.data.results);
         }
       })
       .catch(err => {
@@ -80,7 +83,7 @@ function MovieList() {
       }
       { loading && <div className="movie-list__loading">...</div> }
 
-      { movieNotFound && <p className="text-white h2">We haven't found series titles that contain that. Please try typing something different</p> }
+      { movieNotFound && <p className="text-white h2">We haven't found movie titles that contain that. Please try typing something different</p> }
 
       {
         (movies.length > 0 && !apiError && !loading && !movieNotFound) && (
@@ -90,15 +93,9 @@ function MovieList() {
                 if (movies.length === index + 1) {
                   return (
                     <Movie 
-                      key={movie.show ? movie.show.id : movie.id} 
-                      title={movie.show ? movie.show.name : movie.name}
-                      posterUrl={movie.hasOwnProperty('image') 
-                                  ? (movie.show 
-                                      ? movie.show.image.medium
-                                      : movie.image.medium 
-                                    )
-                                  : null 
-                                }
+                      key={movie.id} 
+                      title={movie.title}
+                      posterUrl={imageBaseUrl.concat(movie.poster_path)}
                       lastMovie={true}
                       ref={lastMovie}
                     />
@@ -106,15 +103,9 @@ function MovieList() {
                 }
                 return (
                   <Movie 
-                    key={movie.show ? movie.show.id : movie.id} 
-                    title={movie.show ? movie.show.name : movie.name}
-                    posterUrl={movie.hasOwnProperty('image') 
-                                ? (movie.show 
-                                    ? movie.show.image.medium
-                                    : movie.image.medium
-                                    ) 
-                                : null
-                              }
+                    key={movie.id} 
+                    title={movie.title}
+                    posterUrl={imageBaseUrl.concat(movie.poster_path)}
                   />
                 )
               })
