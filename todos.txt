@@ -23,7 +23,3 @@ El proyecto consiste en dos partes:
 
 ¿Aprender Jest?
 Guía avanzada Redux para reducir boilerplate
-
-
-** Tareas pendientes **
-Agregar _ en los archivos sass

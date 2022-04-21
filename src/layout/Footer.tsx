@@ -8,11 +8,12 @@ function Footer() {
       <a 
         aria-label="This project uses the OMDB API. Follow this link to visit the OMDB official website"
         className="footer__attribution rounded-pill mb-4 py-3 px-5"
-        href="http://www.omdbapi.com/" 
+        href="https://www.tvmaze.com/api" 
+        rel="noreferrer"
         target="_blank" 
-        title="Visit the OMDB official website"
+        title="Visit the TVmaze API documentation website"
       >
-        This project uses the OMDB API
+        This project uses the TVmaze API
       </a>
       <Row className="justify-content-around">
         <Col
@@ -23,6 +24,7 @@ function Footer() {
           <a 
             className="d-inline-block rounded" 
             href="https://github.com/joelspi97/movie-list"
+            rel="noreferrer"
             target="_blank"
           > 
             Visit this project's GitHub repository!
@@ -36,6 +38,7 @@ function Footer() {
           <a 
             className="d-inline-block rounded" 
             href="https://joelspinelli.herokuapp.com/"
+            rel="noreferrer"
             target="_blank"
           > 
             Check my portfolio!

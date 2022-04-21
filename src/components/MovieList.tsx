@@ -1,7 +1,7 @@
-import { useState, useEffect, createRef } from 'react';
+import { useState, useLayoutEffect, createRef } from 'react';
 import { connect } from 'react-redux';
 import Movie from './Movie';
-import axios, { Canceler } from 'axios';
+import axios from 'axios';
 import '../scss/components/MovieList.scss';
 import OmdbResponseJson from '../interfaces/omdbJson';
 
@@ -10,47 +10,50 @@ function MovieList() {
   const [query, setQuery] = useState<string>('');
   const [movieNotFound, setMovieNotFound] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [apiError, setApiError] = useState<boolean>(false);
 
   const lastMovie = createRef();
 
-  useEffect(() => {
-    let cancel: Canceler;
-    const API_KEY: string = 'bc9de2ce&';
-    let MOVIES_URL: string = 'http://www.omdbapi.com/?&apikey='.concat(API_KEY);
+  useLayoutEffect(() => {
+    let moviesUrl: string = 'https://api.tvmaze.com/';
+    let controller = new AbortController;
     setLoading(true);
+    setApiError(false);
 
-    if (query.length > 2) {
-      MOVIES_URL = MOVIES_URL.concat(`s=${query}`);
-      axios({
-        method: 'GET',
-        url: MOVIES_URL,
-        cancelToken: new axios.CancelToken(c => cancel = c)
-      })
-        .then(res => {
-          console.log(res.data);
-  
-          if(res.data.Error) {
-            setMovieNotFound(true);
-            setMovies([]);
-          } else {
-            setMovieNotFound(false);
-            setMovies(res.data.Search);
-          }
-
-          setLoading(false);
-        })
-        .catch(err => {
-          if (axios.isCancel(err)) return;
-          setMovies([]);
-          console.error(err);
-        });
+    if (query.length > 0) {
+      moviesUrl = moviesUrl.concat(`search/shows?q=${query}`);
     } else {
-      setMovieNotFound(false);
-      setMovies([]);
-      return;
-    };
+      moviesUrl = moviesUrl.concat('shows?page=1');
+    }
 
-    return () => cancel();
+    axios({
+      method: 'GET',
+      url: moviesUrl,
+      signal: controller.signal
+    })
+      .then(res => {
+        console.log(res.data);
+
+        if(res.data.length === 0) {
+          setMovieNotFound(true);
+          setMovies([]);
+        } else {
+          setMovieNotFound(false);
+          setMovies(res.data);
+        }
+      })
+      .catch(err => {
+        if (axios.isCancel(err)) return;
+        
+        setApiError(true);
+        setMovies([]);
+        console.error(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+
+    return () => controller.abort();
   }, [query]);
 
   return (
@@ -69,39 +72,54 @@ function MovieList() {
         onChange={e => setQuery(e.target.value)}
       />
       
+      { apiError && <p className="text-white h2">There was an error with your search, please try again later</p> }
+
       {
-        (movies.length === 0 && query.length < 3)
-          ? <p className="text-white h2">The results of your search will appear here!</p> 
-          : (loading 
-              ? <div className="movie-list__loading">...</div> // Acá agregar un loading spinner
-              : (movieNotFound 
-                  ? <p className="text-white h2">We haven't found movie titles that contain that...</p>
-                  : <ul className="movie-list__list">
-                    {
-                      movies.map((movie: any, index: number): JSX.Element => {
-                        if (movies.length === index + 1) {
-                          return (
-                            <Movie 
-                              ref={lastMovie}
-                              key={movie.imdbID} 
-                              title={movie.Title}
-                              posterUrl={movie.Poster}
-                              lastMovie={true}
-                            />
-                          )  
-                        }
-                        return (
-                          <Movie 
-                            key={movie.imdbID} 
-                            title={movie.Title}
-                            posterUrl={movie.Poster}
-                          />
-                        )
-                      })
-                    }
-                    </ul> 
+        // Acá agregar un loading spinner
+      }
+      { loading && <div className="movie-list__loading">...</div> }
+
+      { movieNotFound && <p className="text-white h2">We haven't found series titles that contain that. Please try typing something different</p> }
+
+      {
+        (movies.length > 0 && !apiError && !loading && !movieNotFound) && (
+          <ul className="movie-list__list">
+            {
+              movies.map((movie: any, index: number): JSX.Element => {                
+                if (movies.length === index + 1) {
+                  return (
+                    <Movie 
+                      key={movie.show ? movie.show.id : movie.id} 
+                      title={movie.show ? movie.show.name : movie.name}
+                      posterUrl={movie.hasOwnProperty('image') 
+                                  ? (movie.show 
+                                      ? movie.show.image.medium
+                                      : movie.image.medium 
+                                    )
+                                  : null 
+                                }
+                      lastMovie={true}
+                      ref={lastMovie}
+                    />
+                  )  
+                }
+                return (
+                  <Movie 
+                    key={movie.show ? movie.show.id : movie.id} 
+                    title={movie.show ? movie.show.name : movie.name}
+                    posterUrl={movie.hasOwnProperty('image') 
+                                ? (movie.show 
+                                    ? movie.show.image.medium
+                                    : movie.image.medium
+                                    ) 
+                                : null
+                              }
+                  />
                 )
-            )
+              })
+            }
+          </ul>
+        )
       }
     </div>
   );
