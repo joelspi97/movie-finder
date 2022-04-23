@@ -6,19 +6,17 @@ import '../scss/components/Movie.scss';
 interface MovieProps {
   title: string;
   posterUrl: string;
-  lastMovie?: boolean;
 };
 
-const Movie = forwardRef((props: MovieProps, ref?: any) => {
+const Movie = forwardRef((props: MovieProps, ref?: React.Ref<HTMLLIElement>) => {
   const { title, 
-          posterUrl,
-          lastMovie } = props;
+          posterUrl, } = props;
 
   return (
     <li ref={ref}>
       <Link 
         aria-label={title}
-        className={`movie rounded ${lastMovie ? 'movie--last' : ''} `} 
+        className="movie rounded" 
         to="details"
       >
         <img src={posterUrl} alt={`${title} poster`} />

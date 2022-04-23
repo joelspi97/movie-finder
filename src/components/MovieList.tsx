@@ -1,64 +1,108 @@
-import { useState, useLayoutEffect, createRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { connect } from 'react-redux';
 import Movie from './Movie';
 import axios from 'axios';
 import '../scss/components/MovieList.scss';
-import OmdbResponseJson from '../interfaces/omdbJson'; // Adaptar esto a tmdb
+import TmdbResponseJson from '../interfaces/tbdbJson';
 
 function MovieList() {
   const [movies, setMovies] = useState<Array<any>>([]);
-  const [page, setPage] = useState<number>(1); // Trabajar esto
+  const [pageNumber, setPageNumber] = useState<number>(1);
   const [query, setQuery] = useState<string>('');
   const [movieNotFound, setMovieNotFound] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [apiError, setApiError] = useState<boolean>(false);
+  const [hasMore, setHasMore] = useState<boolean>(true);
 
-  const lastMovie = createRef();
+  const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/original/';
+  
+  //
+  //
+  // Hacer un hook con todo esto
+  
+  const API_KEY = '291a10a46f07867159009943d2d6daa0';
+  const BASE_URL = 'https://api.themoviedb.org/3/';
+  let currentUrl: string;
 
-  let imageBaseUrl = 'https://image.tmdb.org/t/p/original/';
-
-  useLayoutEffect(() => {
-    const API_KEY = '291a10a46f07867159009943d2d6daa0';
-    let moviesUrl = 'https://api.themoviedb.org/3/';
-    let controller = new AbortController;
+  //Este bloque aca afuera esta raro
+  if (query.length > 0) {
+    currentUrl = BASE_URL.concat(`search/movie?query=${query}`).concat(`&api_key=${API_KEY}`);
+  } else {
+    currentUrl = BASE_URL.concat(`movie/popular?page=${pageNumber}`).concat(`&api_key=${API_KEY}`);
+  }
+  //
+  
+  useEffect(() => {
     setLoading(true);
     setApiError(false);
-
-    if (query.length > 0) {
-      moviesUrl = moviesUrl.concat(`search/movie?query=${query}&page=${page}`).concat(`&api_key=${API_KEY}`);
-    } else {
-      moviesUrl = moviesUrl.concat(`movie/popular?page=${page}`).concat(`&api_key=${API_KEY}`);
-    }
-
-    axios({
-      method: 'GET',
-      url: moviesUrl,
+    setPageNumber(1);
+    setHasMore(true);
+    let controller = new AbortController;
+    
+    axios.get<TmdbResponseJson>(currentUrl, {
       signal: controller.signal
     })
-      .then(res => {
-        console.log(res.data);
+    .then(res => {
+      console.log(res.data);
 
-        if(res.data.results.length === 0) {
-          setMovieNotFound(true);
-          setMovies([]);
-        } else {
-          setMovieNotFound(false);
-          setMovies(res.data.results);
-        }
-      })
-      .catch(err => {
-        if (axios.isCancel(err)) return;
-        
-        setApiError(true);
+      if (res.data.page === res.data.total_pages) setHasMore(false);
+      
+      if(res.data.results.length === 0) {
+        setMovieNotFound(true);
         setMovies([]);
-        console.error(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      } else {
+        setMovieNotFound(false);
+        setMovies(res.data.results);
+      }
 
+      setLoading(false);
+    })
+    .catch(err => {
+      if (axios.isCancel(err)) return;
+      
+      setApiError(true);
+      setMovies([]);
+      console.error(err);
+    });
+    
     return () => controller.abort();
   }, [query]);
+  
+  //
+  //
+  //
+
+  function getNextPage(): void {
+    console.log(pageNumber);
+    currentUrl = currentUrl.concat(`&page=${pageNumber}`); // Esto no funca, en parte porque la busqueda por defecto no podria funcionar de por si
+
+    axios.get<TmdbResponseJson>(currentUrl)
+      .then(res => {
+        if (res.data.page === res.data.total_pages) setHasMore(false);
+
+        setMovies(prevMovies => [...prevMovies, res.data.results]);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
+
+  const observerRef = useRef<IntersectionObserver>();
+  const lastMovie = useCallback((node: HTMLLIElement) => {
+    if (loading) return;
+    if (observerRef.current) observerRef.current.disconnect();
+
+    observerRef.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && hasMore) { 
+        console.log(pageNumber);
+        setPageNumber(prevPageNumber => prevPageNumber + 1); // Esto no funca..?
+        console.log(pageNumber);
+        getNextPage();
+      };
+    });
+
+    if (node) observerRef.current.observe(node);
+  }, [loading, hasMore]);
 
   return (
     <div className="movie-list">
@@ -95,8 +139,7 @@ function MovieList() {
                     <Movie 
                       key={movie.id} 
                       title={movie.title}
-                      posterUrl={imageBaseUrl.concat(movie.poster_path)}
-                      lastMovie={true}
+                      posterUrl={IMAGE_BASE_URL.concat(movie.poster_path)}
                       ref={lastMovie}
                     />
                   )  
@@ -105,7 +148,7 @@ function MovieList() {
                   <Movie 
                     key={movie.id} 
                     title={movie.title}
-                    posterUrl={imageBaseUrl.concat(movie.poster_path)}
+                    posterUrl={IMAGE_BASE_URL.concat(movie.poster_path)}
                   />
                 )
               })

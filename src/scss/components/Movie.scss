@@ -58,8 +58,9 @@
     }
 
     img {
+        aspect-ratio: 2/3;
         margin-right: 2rem;
-        height: 20rem;
+        // height: 20rem;
         width: 50%;
 
         @include breakpoint(map-get($bp, 'md')) {
@@ -67,7 +68,7 @@
         }
 
         @include breakpoint(map-get($bp, 'sm')) {
-            height: 20rem;
+            // height: 20rem;
             margin-bottom: 2rem;
             width: 80%;
         }
