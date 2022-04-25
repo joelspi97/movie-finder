@@ -4,10 +4,10 @@ import './scss/core/resets.scss';
 import './scss/core/generic-classes.scss';
 import App from './App';
 import { Provider } from 'react-redux';
-import store from './store';
+import movieStore from './store';
 
 ReactDOM.render(
-  <Provider store={store}>
+  <Provider store={movieStore}>
     <React.StrictMode>
       <App />
     </React.StrictMode>

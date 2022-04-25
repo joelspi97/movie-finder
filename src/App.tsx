@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './layout/Header';
-import Main from './layout/Main';
 import MovieList from './components/MovieList';
 import MovieDetails from './components/MovieDetails';
 import PageNotFound from './components/PageNotFound';
@@ -15,13 +14,13 @@ function App() {
         <a className="rounded" href="#footer">Skip to footer</a>
       </div>
       <Header />
-      <Main>
+      <main className="main container-fluid pt-5">
         <Routes>
           <Route path='/' element={<MovieList />} />
           <Route path='details' element={<MovieDetails />} />
           <Route path='*' element={<PageNotFound />} />
         </Routes>
-      </Main>
+      </main>
       <Footer />
     </BrowserRouter>
   );

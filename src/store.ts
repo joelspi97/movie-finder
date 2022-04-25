@@ -1,4 +1,3 @@
 import { createStore } from "redux";
-import reducer from "./reducers";
-
-export default createStore(reducer);
+import moviesReducer from "./reducers";
+export default createStore(moviesReducer);

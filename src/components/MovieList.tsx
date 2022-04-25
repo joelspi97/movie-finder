@@ -16,6 +16,7 @@ function MovieList() {
           hasMore } = useMovieSearch(query, pageNumber);
 
   const observerRef = useRef<IntersectionObserver>();
+  
   const lastMovie = useCallback((node: HTMLLIElement) => {
     if (loading) return;
     if (observerRef.current) observerRef.current.disconnect();
