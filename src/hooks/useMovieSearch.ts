@@ -27,7 +27,7 @@ export default function useMovieSearch(query: string, pageNumber: number) {
     setLoading(true);
     setApiError(false);
     setMovieNotFound(false);
-    let controller = new AbortController;
+    let controller = new AbortController();
     
     axios.get<TmdbResponse>(currentUrl, {
       signal: controller.signal
@@ -54,7 +54,7 @@ export default function useMovieSearch(query: string, pageNumber: number) {
     });
     
     return () => controller.abort();
-  }, [query, pageNumber]);
+  }, [query, pageNumber, currentUrl]);
 
   return { loading,
            apiError,

@@ -1,9 +1,7 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { connect } from 'react-redux';
 import Movie from './Movie';
-import axios from 'axios';
 import '../scss/components/MovieList.scss';
-//import TmdbResponse from '../interfaces/tmdbJson';
 import useMovieSearch from '../hooks/useMovieSearch';
 
 function MovieList() {
