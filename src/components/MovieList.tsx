@@ -1,13 +1,13 @@
 import { useState, useRef, useCallback } from 'react';
 import { connect } from 'react-redux';
 import Movie from './Movie';
-import '../scss/components/MovieList.scss';
 import useMovieSearch from '../hooks/useMovieSearch';
+import { IMAGE_BASE_URL } from '../constants';
+import '../scss/components/MovieList.scss';
 
 function MovieList() {
   const [query, setQuery] = useState<string>('');
   const [pageNumber, setPageNumber] = useState<number>(1);
-  const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/original/';
 
   const { loading,
           apiError,
@@ -51,15 +51,6 @@ function MovieList() {
         onChange={handleSearch}
       />
       
-      { apiError && <p className="text-white h2">There was an error with your search, please try again later</p> }
-
-      {
-        // Acá agregar un loading spinner
-      }
-      { loading && <div className="movie-list__loading">...</div> }
-
-      { movieNotFound && <p className="text-white h2">We haven't found movie titles that contain that. Please try typing something different</p> }
-
       {
         (movies.length > 0 && !apiError && !movieNotFound) && (
           <ul className="movie-list__list">
@@ -68,18 +59,22 @@ function MovieList() {
                 if (movies.length === index + 1) {
                   return (
                     <Movie 
+                      ref={lastMovie}
                       key={movie.id} 
+                      id={movie.id}
                       title={movie.title}
                       posterUrl={IMAGE_BASE_URL.concat(movie.poster_path)}
-                      ref={lastMovie}
+                      score={movie.vote_average}
                     />
                   )  
                 }
                 return (
                   <Movie 
-                    key={movie.id} 
+                    key={movie.id}
+                    id={movie.id} 
                     title={movie.title}
                     posterUrl={IMAGE_BASE_URL.concat(movie.poster_path)}
+                    score={movie.vote_average}
                   />
                 )
               })
@@ -87,6 +82,15 @@ function MovieList() {
           </ul>
         )
       }
+
+      { apiError && <p className="text-white h2">There was an error with your search, please try again later</p> }
+
+      { movieNotFound && <p className="text-white h2">We haven't found movie titles that contain that. Please try typing something different</p> }
+      
+      {
+        // Acá agregar un loading spinner
+      }
+      { loading && <div className="movie-list__loading">...</div> }
     </div>
   );
 };

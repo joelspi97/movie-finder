@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import TmdbResponse from "../interfaces/tmdbJson";
+import { API_KEY, BASE_URL } from "../constants";
+import SearchedMovies from "../interfaces/searchedMovies.interface";
 
 export default function useMovieSearch(query: string, pageNumber: number) {
   const [movies, setMovies] = useState<Array<any>>([]);
@@ -9,9 +10,6 @@ export default function useMovieSearch(query: string, pageNumber: number) {
   const [apiError, setApiError] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(false);
     
-  const API_KEY = '291a10a46f07867159009943d2d6daa0';
-  const BASE_URL = 'https://api.themoviedb.org/3/';
-  
   useEffect(() => {
     setMovies([]);
   }, [query]);
@@ -29,11 +27,11 @@ export default function useMovieSearch(query: string, pageNumber: number) {
       currentUrl = BASE_URL.concat(`movie/popular?page=${pageNumber}`).concat(`&api_key=${API_KEY}`);
     }
     
-    axios.get<TmdbResponse>(currentUrl, {
+    axios.get<SearchedMovies>(currentUrl, {
       signal: controller.signal
     })
     .then(res => {
-      console.log(res.data);
+      console.log(res);
 
       if(res.data.results.length === 0) {
         setMovieNotFound(true);
@@ -43,7 +41,6 @@ export default function useMovieSearch(query: string, pageNumber: number) {
       }
       
       setHasMore(res.data.page !== res.data.total_pages);
-      setLoading(false);
     })
     .catch(err => {
       if (axios.isCancel(err)) return;
@@ -51,7 +48,10 @@ export default function useMovieSearch(query: string, pageNumber: number) {
       setApiError(true);
       setMovies([]);
       console.error(err);
-    });
+    })
+    .finally(() => {
+      setLoading(false);
+    })
     
     return () => controller.abort();
   }, [query, pageNumber]);

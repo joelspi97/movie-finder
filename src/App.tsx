@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Header from './layout/Header';
 import MovieList from './components/MovieList';
 import MovieDetails from './components/MovieDetails';
@@ -17,8 +17,9 @@ function App() {
       <main className="main container-fluid pt-5">
         <Routes>
           <Route path='/' element={<MovieList />} />
-          <Route path='details' element={<MovieDetails />} />
-          <Route path='*' element={<PageNotFound />} />
+          <Route path='details/:currentMovieId' element={<MovieDetails />} />
+          <Route path='404' element={<PageNotFound />} />
+          <Route path='*' element={<Navigate replace to='404' />} />
         </Routes>
       </main>
       <Footer />

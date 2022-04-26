@@ -8,4 +8,4 @@ To build it I'm using the following:
 * Bootstrap
 * Sass
 
-This project was made with [TMDb API](https://www.themoviedb.org/).
+This project was made uses [TMDb API](https://www.themoviedb.org/).
