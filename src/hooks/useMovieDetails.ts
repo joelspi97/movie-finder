@@ -37,13 +37,14 @@ export default function useMovieDetails(currentMovieId: string) {
                 })
             })
             .catch(err => {
+                console.error(err);
+                
                 if(err.response.status === 404) {
                     navigate('404');
                     return;
                 }; 
                 
                 setApiError(true);
-                console.error(err);
             })
             .finally(() => {
                 setLoading(false);
