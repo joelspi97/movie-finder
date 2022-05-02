@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { IMAGE_BASE_URL } from '../constants';
 import '../scss/components/MovieDetails.scss';
 import { getDetails, eraseMovieDetails } from '../actions/detailsActions';
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import CurrentMovieDetails from '../interfaces/movieDetails.interface';
 import { Dispatch } from "react";
@@ -35,18 +35,21 @@ function MovieDetails(props: MovieDetailsProps) {
           vote_count,
           getDetails,
           eraseMovieDetails } = props;
-    
-  const navigate = useNavigate();
+
   const { currentMovieId } = useParams();
   useEffect(() => {
     getDetails(currentMovieId!);
+    return () => eraseMovieDetails();
+  }, []);
+  
+  const navigate = useNavigate();
+  useLayoutEffect(() => {
     if(errorCode === 404) {
       navigate('404');
     };
-
     return () => eraseMovieDetails();
-  }, [getDetails, currentMovieId]);
-
+  }, [errorCode]);
+  
   return (
     <div className="movie-details container-fluid">
       <Row className="mb-5">

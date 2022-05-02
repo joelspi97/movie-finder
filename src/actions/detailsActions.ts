@@ -29,7 +29,7 @@ export function getDetails(currentMovieId: string): Dispatch<MovieAction> {
     let url = BASE_URL.concat(`/movie/${currentMovieId}`)
     
     dispatch(setLoading(true));
-    dispatch(setError({value: false}));
+    dispatch(setError({ value: false, code: undefined }));
 
     axios.get<CurrentMovieDetails>(url, {
         params: { api_key: API_KEY },
