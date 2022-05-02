@@ -21,23 +21,20 @@
         margin-bottom: 2rem;
     }
 
-    .movie-details__link-wrapper {
+    a {
         background-color: $dark-grey;
         border-radius: 2.5rem;
-        width: fit-content;
+        color: $light-blue;
+        font-size: map-get($fs, 'md');
+        font-weight: 700;
+        text-decoration: none;
+        transition: color $transition ease-in-out;
         padding: 0.5rem 1rem;
+        width: fit-content;
 
-        a {
-            color: $light-blue;
-            font-size: map-get($fs, 'md');
-            font-weight: 700;
-            text-decoration: none;
-            transition: color $transition ease-in-out;
-
-            &:hover,
-            &:focus {
-                color: $orange;
-            }
+        &:hover,
+        &:focus {
+            color: $orange;
         }
     }
 }

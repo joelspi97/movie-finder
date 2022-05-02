@@ -1,14 +1,11 @@
-import { useParams } from 'react-router-dom';
-import { Col, Row } from 'react-bootstrap';
+import { useEffect, useLayoutEffect, Dispatch } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { IMAGE_BASE_URL } from '../constants';
-import '../scss/components/MovieDetails.scss';
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { Col, Row } from 'react-bootstrap';
 import { getDetails, eraseMovieDetails } from '../actions/detailsActions';
-import { useEffect, useLayoutEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+import { IMAGE_BASE_URL } from '../constants';
 import CurrentMovieDetails from '../interfaces/movieDetails.interface';
-import { Dispatch } from "react";
+import '../scss/components/MovieDetails.scss';
 
 interface MovieDetailsProps extends CurrentMovieDetails {
   loading: boolean;
@@ -35,7 +32,7 @@ function MovieDetails(props: MovieDetailsProps) {
           vote_count,
           getDetails,
           eraseMovieDetails } = props;
-
+    console.log(title)
   const { currentMovieId } = useParams();
   useEffect(() => {
     getDetails(currentMovieId!);
@@ -44,7 +41,7 @@ function MovieDetails(props: MovieDetailsProps) {
   
   const navigate = useNavigate();
   useLayoutEffect(() => {
-    if(errorCode === 404) {
+    if(errorCode === 404 || !title) {
       navigate('404');
     };
     return () => eraseMovieDetails();

@@ -36,6 +36,7 @@ export function getDetails(currentMovieId: string): Dispatch<MovieAction> {
         signal: abortController.signal
     })
       .then(res => {
+        console.log('its happening')
         dispatch(setMovieDetails(res.data));
       })
       .catch(err => {

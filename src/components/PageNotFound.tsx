@@ -7,9 +7,7 @@ function PageNotFound() {
     <div className="page-not-found">
       <h2>Page Not Found</h2>
       <p>Error 404</p>
-      <div className="movie-details__link-wrapper">
-        <Link to="/">Go back</Link>
-      </div>
+      <Link to="/">Go back</Link>
     </div>
   );
 };
