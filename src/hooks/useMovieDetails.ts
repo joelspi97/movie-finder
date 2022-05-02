@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API_KEY, BASE_URL } from '../constants';
-import CurrentMovieDetails from '../interfaces/currentMovieDetails.interface';
+import CurrentMovieDetails from '../interfaces/movieDetails.interface';
 
 export default function useMovieDetails(currentMovieId: string) {
     const [currentMovieDetails, setCurrentMovieDetails] = useState<CurrentMovieDetails>();
