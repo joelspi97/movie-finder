@@ -7,10 +7,10 @@ import '../scss/components/MovieDetails.scss';
 import { getDetails, eraseMovieDetails } from '../actions/detailsActions';
 import { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import MovieDetails from '../interfaces/movieDetails.interface';
+import CurrentMovieDetails from '../interfaces/movieDetails.interface';
 import { Dispatch } from "react";
 
-interface MovieDetailsProps extends MovieDetails {
+interface MovieDetailsProps extends CurrentMovieDetails {
   loading: boolean;
   error: boolean;
   errorCode: number;
@@ -36,19 +36,16 @@ function MovieDetails(props: MovieDetailsProps) {
           getDetails,
           eraseMovieDetails } = props;
     
+  const navigate = useNavigate();
   const { currentMovieId } = useParams();
   useEffect(() => {
     getDetails(currentMovieId!);
-
-    return () => eraseMovieDetails();
-  }, [getDetails, currentMovieId]);
-          
-  const navigate = useNavigate();
-  useEffect(() => {
     if(errorCode === 404) {
       navigate('404');
     };
-  }, []);
+
+    return () => eraseMovieDetails();
+  }, [getDetails, currentMovieId]);
 
   return (
     <div className="movie-details container-fluid">

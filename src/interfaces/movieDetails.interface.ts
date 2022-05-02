@@ -3,7 +3,7 @@ interface Genre {
     name: string;
 }
 
-export default interface MovieDetails {
+export default interface CurrentMovieDetails {
     backdrop_path?: string | null;
     genres?: Genre[] | null;
     homepage?: string | null;

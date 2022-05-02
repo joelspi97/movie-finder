@@ -1,7 +1,7 @@
 import { MovieAction } from "../interfaces/response.interface";
-import MovieDetails from "../interfaces/movieDetails.interface";
+import CurrentMovieDetails from "../interfaces/movieDetails.interface";
 
-const detailsInitialState: MovieDetails = {
+const detailsInitialState: CurrentMovieDetails = {
   backdrop_path: null,
   genres: null,
   homepage: null,
@@ -15,7 +15,7 @@ const detailsInitialState: MovieDetails = {
   vote_count: null
 };
 
-export default function movieDetailsReducer(detailsState = detailsInitialState, action: MovieAction): MovieDetails {
+export default function movieDetailsReducer(detailsState = detailsInitialState, action: MovieAction): CurrentMovieDetails {
   switch (action.type) {
     case 'SET_MOVIE_DETAILS':
       return {

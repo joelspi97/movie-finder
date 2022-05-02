@@ -1,7 +1,7 @@
 export interface MovieResponse {
   loading: boolean;
   error: boolean;
-  errorCode: string | null;
+  errorCode: number | null;
 }
   
 export interface MovieAction {
