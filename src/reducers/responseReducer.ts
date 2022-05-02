@@ -1,4 +1,4 @@
-import { MovieResponse, MovieAction } from "../interfaces/movieRedux.interface";
+import { MovieResponse, MovieAction } from "../interfaces/response.interface";
 
 const responseInitialState: MovieResponse = {
     loading: false,
@@ -11,7 +11,7 @@ export default function responseReducer(responseState = responseInitialState, ac
         case 'SET_LOADING':
             return {
                 ...responseState,
-                loading: action.payload.value
+                loading: action.payload
             }
 
         case 'SET_ERROR':

@@ -4,37 +4,59 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { IMAGE_BASE_URL } from '../constants';
 import '../scss/components/MovieDetails.scss';
-import { DetailsState } from '../interfaces/movieRedux.interface';
-import { getDetails } from '../actions/detailsActions';
-import { useLayoutEffect } from 'react';
+import { getDetails, eraseMovieDetails } from '../actions/detailsActions';
+import { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import MovieDetails from '../interfaces/movieDetails.interface';
+import { Dispatch } from "react";
 
+interface MovieDetailsProps extends MovieDetails {
+  loading: boolean;
+  error: boolean;
+  errorCode: number;
+  getDetails: Dispatch<string>;
+  eraseMovieDetails: Dispatch<void>;
+}
 
-function MovieDetails(props: DetailsState | any) {    
-  const navigate = useNavigate();
-  const { currentMovieId } = useParams();
-
-  useLayoutEffect(() => {
-    getDetails(currentMovieId);
-  }, []);
-  
+function MovieDetails(props: MovieDetailsProps) {    
   const { loading,
           error,
           errorCode,
-          getDetails,
+          backdrop_path,
+          genres,
+          homepage,
+          overview,
+          poster_path,
+          release_date,
+          runtime,
+          tagline,
           title,
           vote_average,
-          overview,
-          poster_path } = props;
+          vote_count,
+          getDetails,
+          eraseMovieDetails } = props;
     
-  if(errorCode === 404) {
-    navigate('404');
-  };
+  const { currentMovieId } = useParams();
+  useEffect(() => {
+    getDetails(currentMovieId!);
+
+    return () => eraseMovieDetails();
+  }, [getDetails, currentMovieId]);
+          
+  const navigate = useNavigate();
+  useEffect(() => {
+    if(errorCode === 404) {
+      navigate('404');
+    };
+  }, []);
 
   return (
     <div className="movie-details container-fluid">
+      <Row className="mb-5">
+        <Link className="movie-details__link" to="/">Go back</Link>
+      </Row>
       {
-        loading && <div>Loading...</div>
+        loading && <div className='h1'>Loading...</div>
       }
 
       {
@@ -44,9 +66,6 @@ function MovieDetails(props: DetailsState | any) {
       {
         (!loading && !error) && (
           <>
-            <Row className="mb-5">
-              <Link className="movie-details__link" to="/">Go back</Link>
-            </Row>
             <Row className="justify-content-evenly">
               <Col lg={5} className="mb-4 mb-lg-0 px-0">
                 <div className="movie-details__header rounded-pill">
@@ -57,7 +76,7 @@ function MovieDetails(props: DetailsState | any) {
               </Col>
               <Col lg={5} className="text-center">
                 <img 
-                  src={ IMAGE_BASE_URL.concat(poster_path)} 
+                  src={poster_path ? IMAGE_BASE_URL.concat(poster_path) : undefined} 
                   alt={`${title} poster`} 
                 />
               </Col>
@@ -94,7 +113,8 @@ function mapStateToProps(state: any) {
 }
 
 const mapDispatchToProps = {
-  getDetails
+  getDetails,
+  eraseMovieDetails
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MovieDetails);

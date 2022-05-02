@@ -1,8 +1,9 @@
-import { MovieAction } from "../interfaces/movieRedux.interface";
+import { MovieAction } from "../interfaces/response.interface";
 import axios from "axios";
 import { setLoading, setError } from "./responseActions";
 import { BASE_URL, API_KEY } from "../constants";
 import MovieDetails from "../interfaces/movieDetails.interface";
+import { Dispatch } from "react";
 
 export function setMovieDetails(payload: MovieDetails): MovieAction {
   return {
@@ -11,17 +12,28 @@ export function setMovieDetails(payload: MovieDetails): MovieAction {
   };
 };
 
-export function getDetails(currentMovieId: string) {
+export function eraseMovieDetails(): MovieAction {
+  return {
+    type: 'ERASE_MOVIE_DETAILS'
+  };
+}
+
+export function getDetails(currentMovieId: string): Dispatch<MovieAction> {
+  let abortController: any;
+  if (abortController) {
+    abortController.abort();
+  }
+  abortController = new AbortController();
+  
   return (dispatch: any) => {
+    let url = BASE_URL.concat(`/movie/${currentMovieId}`)
+    
     dispatch(setLoading(true));
     dispatch(setError({value: false}));
-    
-    let url = BASE_URL.concat(`/movie/${currentMovieId}`)
-    let controller = new AbortController();
 
     axios.get<MovieDetails>(url, {
         params: { api_key: API_KEY },
-        signal: controller.signal
+        signal: abortController.signal
     })
       .then(res => {
         dispatch(setMovieDetails(res.data));
@@ -31,7 +43,7 @@ export function getDetails(currentMovieId: string) {
         dispatch(setError({value: true, code: err.response.status}));
       })
       .finally(() => {
-        setLoading(false);
+        dispatch(setLoading(false));
       })
   }
 };

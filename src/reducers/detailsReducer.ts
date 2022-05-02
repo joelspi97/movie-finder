@@ -1,4 +1,4 @@
-import { MovieAction } from "../interfaces/movieRedux.interface";
+import { MovieAction } from "../interfaces/response.interface";
 import MovieDetails from "../interfaces/movieDetails.interface";
 
 const detailsInitialState: MovieDetails = {
@@ -31,6 +31,22 @@ export default function movieDetailsReducer(detailsState = detailsInitialState, 
         title: action.payload.title,
         vote_average: action.payload.vote_average,
         vote_count: action.payload.vote_count,
+      }
+
+    case 'ERASE_MOVIE_DETAILS':
+      return {
+        ...detailsState,
+        backdrop_path: null,
+        genres: null,
+        homepage: null,
+        overview: null,
+        poster_path: null,
+        release_date: null,
+        runtime: null,
+        tagline: null,
+        title: null,
+        vote_average: null,
+        vote_count: null,
       }
 
     default:
