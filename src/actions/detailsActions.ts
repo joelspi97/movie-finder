@@ -18,8 +18,8 @@ export function eraseMovieDetails(): MovieAction {
   };
 }
 
+let abortController: AbortController;
 export function getDetails(currentMovieId: string): Dispatch<MovieAction> {
-  let abortController: any;
   if (abortController) {
     abortController.abort();
   }
