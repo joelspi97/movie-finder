@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { API_KEY, BASE_URL } from "../constants";
-import SearchedMovies from "../interfaces/searchedMovies.interface";
+import { SearchedMovies } from "../interfaces/movieList.interface";
 
 export default function useMovieSearch(query: string, pageNumber: number) {
   const [movies, setMovies] = useState<Array<any>>([]);

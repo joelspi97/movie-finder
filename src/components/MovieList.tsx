@@ -1,40 +1,61 @@
-import { useState, useRef, useCallback } from 'react';
+import { useRef, useCallback, useEffect, Dispatch } from 'react';
 import { connect } from 'react-redux';
 import Movie from './Movie';
-import useMovieSearch from '../hooks/useMovieSearch';
 import { IMAGE_BASE_URL } from '../constants';
+import { getList, getNextPage, setQuery, resetMovies } from '../actions/listActions';
+import { SearchResult} from '../interfaces/movieList.interface';
 import '../scss/components/MovieList.scss';
 
-function MovieList() {
-  const [query, setQuery] = useState<string>('');
-  const [pageNumber, setPageNumber] = useState<number>(1);
+interface MovieListProps {
+  loading: boolean;
+  error:  boolean;
+  query: string;
+  pageNumber: number;
+  movies: SearchResult[];
+  movieNotFound: boolean;
+  hasMore: boolean; 
+  resetMovies: Dispatch<void>;
+  getList: Function;
+  getNextPage: Dispatch<void>; 
+  setQuery: Dispatch<string>;
+}
 
+function MovieList(props: MovieListProps) {
   const { loading,
-          apiError,
+          error,
+          query,
+          pageNumber,
           movies,
           movieNotFound,
-          hasMore } = useMovieSearch(query, pageNumber);
-
-  const observerRef = useRef<IntersectionObserver>();
+          hasMore, 
+          resetMovies,
+          getList, 
+          getNextPage, 
+          setQuery } = props;
   
+  useEffect(() => {
+    resetMovies();
+  }, [query]);
+  
+  useEffect(() => {
+    getList(query, pageNumber);
+  }, [query, pageNumber]);
+  
+  const observerRef = useRef<IntersectionObserver>();
   const lastMovie = useCallback((node: HTMLLIElement) => {
     if (loading) return;
     if (observerRef.current) observerRef.current.disconnect();
 
     observerRef.current = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting && hasMore) { 
-        setPageNumber(prevPageNumber => prevPageNumber + 1);
+        getNextPage();
+        console.log(pageNumber)
       };
     });
 
     if (node) observerRef.current.observe(node);
   }, [loading, hasMore]);
-
-  function handleSearch(e: React.ChangeEvent<HTMLInputElement>): void {
-    setQuery(e.target.value);
-    setPageNumber(1);
-  }
-
+  
   return (
     <div className="movie-list">
       <div className="movie-list__text-wrapper">
@@ -48,11 +69,11 @@ function MovieList() {
         type="text" 
         placeholder="Search movies by title..."
         value={query}
-        onChange={handleSearch}
+        onChange={e => setQuery(e.target.value)}
       />
       
       {
-        (movies.length > 0 && !apiError && !movieNotFound) && (
+        (movies.length > 0 && !error && !movieNotFound) && (
           <ul className="movie-list__list">
             {
               movies.map((movie: any, index: number): JSX.Element => {                
@@ -83,7 +104,7 @@ function MovieList() {
         )
       }
 
-      { apiError && <p className="text-white h2">There was an error with your search, please try again later</p> }
+      { error && <p className="text-white h2">There was an error with your search, please try again later</p> }
 
       { movieNotFound && <p className="text-white h2">We haven't found movie titles that contain that. Please try typing something different</p> }
       
@@ -95,4 +116,24 @@ function MovieList() {
   );
 };
 
-export default connect(null, null)(MovieList);
+function mapStateToProps(state: any) {
+  return {
+    loading: state.response.loading,
+    error: state.response.error,
+
+    query: state.list.query,
+    pageNumber: state.list.pageNumber,
+    movies: state.list.movies,
+    movieNotFound: state.list.movieNotFound,
+    hasMore: state.list.hasMore
+  };
+}
+
+const mapDispatchToProps = {
+  resetMovies,
+  getList,
+  getNextPage,
+  setQuery
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MovieList);

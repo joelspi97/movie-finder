@@ -32,16 +32,18 @@ function MovieDetails(props: MovieDetailsProps) {
           vote_count,
           getDetails,
           eraseMovieDetails } = props;
-    console.log(title)
+          
   const { currentMovieId } = useParams();
   useEffect(() => {
     getDetails(currentMovieId!);
+
+    // if (!title) fijarse que hongo esto
     return () => eraseMovieDetails();
   }, []);
   
   const navigate = useNavigate();
   useLayoutEffect(() => {
-    if(errorCode === 404 || !title) {
+    if(errorCode === 404) {
       navigate('404');
     };
     return () => eraseMovieDetails();

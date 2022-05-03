@@ -1,9 +1,11 @@
-import { createStore, combineReducers, applyMiddleware } from "redux";
-import thunk from "redux-thunk";
-import detailsReducer from "./reducers/detailsReducer";
-import responseReducer from "./reducers/responseReducer";
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import listReducer from './reducers/listReducer';
+import detailsReducer from './reducers/detailsReducer';
+import responseReducer from './reducers/responseReducer';
 
 const rootReducer = combineReducers({
+    list: listReducer,
     details: detailsReducer,
     response: responseReducer,
 });
