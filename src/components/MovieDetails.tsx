@@ -69,9 +69,35 @@ function MovieDetails(props: MovieDetailsProps) {
               <Col lg={5} className="mb-4 mb-lg-0 px-0">
                 <div className="movie-details__header rounded-pill">
                   <h2>{title}</h2>
-                  <div>{vote_average}</div>
+                  <div>
+                    Rating: {vote_average} 
+                    <div className="text-end">
+                      <span className="fst-italic h4">({vote_count} votes)</span></div>
+                    </div>
+                </div>
+                <div className="d-flex">
+                  <h3 className="fst-italic me-5">{tagline}</h3>
+                  <div>
+                    <h4>Genres</h4>
+                    <div>
+                      {genres?.map(genre => {
+                        return <span className="me-3" key={genre.id}>{genre.name}</span>
+                      })}
+                    </div>
+                  </div>
                 </div>
                 <p className="text-center text-lg-start">{overview}</p>
+                <p>Released on {release_date}</p>
+                <p>Runtime: {runtime} minutes</p>
+                {
+                  homepage && (
+                    <a href={homepage} target="_blank" rel="noreferrer">Visit this movie official website</a>
+                  )
+                }
+                <img 
+                  src={backdrop_path ? IMAGE_BASE_URL.concat(backdrop_path) : undefined} 
+                  alt={`${title} poster`} 
+                />
               </Col>
               <Col lg={5} className="text-center">
                 <img 
