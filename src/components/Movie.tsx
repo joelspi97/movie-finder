@@ -7,14 +7,12 @@ interface MovieProps {
   id: number;
   title: string;
   posterUrl: string;
-  score: number;
 };
 
 const Movie = forwardRef((props: MovieProps, ref?: React.Ref<HTMLLIElement>) => {
   const { id,
           title, 
-          posterUrl,
-          score } = props;
+          posterUrl } = props;
 
   return (
     <li ref={ref}>
@@ -25,7 +23,6 @@ const Movie = forwardRef((props: MovieProps, ref?: React.Ref<HTMLLIElement>) => 
       >
         <img src={posterUrl} alt={`${title} poster`} />
         <h2>{title}</h2>
-        <span className="h2">{score}</span>
       </Link>
     </li>
   );

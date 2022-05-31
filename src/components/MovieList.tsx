@@ -85,7 +85,6 @@ function MovieList(props: MovieListProps) {
                       id={movie.id}
                       title={movie.title}
                       posterUrl={IMAGE_BASE_URL.concat(movie.poster_path)}
-                      score={movie.vote_average}
                     />
                   )  
                 }
@@ -95,7 +94,6 @@ function MovieList(props: MovieListProps) {
                     id={movie.id} 
                     title={movie.title}
                     posterUrl={IMAGE_BASE_URL.concat(movie.poster_path)}
-                    score={movie.vote_average}
                   />
                 )
               })
