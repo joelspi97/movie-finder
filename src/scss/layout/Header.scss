@@ -10,7 +10,8 @@
     grid-template-columns: repeat(3, 1fr);
     justify-items: center;
     padding: 1rem 3rem;
-
+    position: relative;
+    z-index: 1000;
 
     @include breakpoint(map-get($bp, 'sm')) {
         padding: 1rem 2rem;

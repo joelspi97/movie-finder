@@ -93,27 +93,27 @@ function MovieDetails(props: MovieDetailsProps) {
                     </div>
                   </div>
                   <div className="movie-details__body">
-                    <h3 className="movie-details__tagline">"<span>{tagline}</span>"</h3>
+                    <h3 className="movie-details__tagline">{tagline}</h3>
                     <p className="text-center text-lg-start">{overview}</p>
-                    <div className="d-flex my-5">
-                      {release_date && <p className="me-5">Released on {release_date}</p>}
+                    <div className="movie-details__movie-data">
+                      {release_date && <p>Released on {release_date}</p>}
                       {runtime && <p>Runtime: {runtime} minutes</p>}
-                    </div>
-                    {
-                      genres && (
-                        <div className="movie-details__genres">
-                          <h4>Genres: </h4>
-                          <div>
-                            {genres.map((genre, index) => {
-                              if(index === genres.length - 1) {
-                                return <span key={genre.id}>{genre.name}</span>
-                              }
-                              return <span key={genre.id}>{genre.name} - </span>
-                            })}
+                      {
+                        genres && (
+                          <div className="movie-details__genres">
+                            <h4>Genres: </h4>
+                            <div>
+                              {genres.map((genre, index) => {
+                                if(index === genres.length - 1) {
+                                  return <span key={genre.id}>{genre.name}</span>
+                                }
+                                return <span key={genre.id}>{genre.name} - </span>
+                              })}
+                            </div>
                           </div>
-                        </div>
-                      )
-                    }
+                        )
+                      }
+                    </div>
                     {
                       homepage && (
                         <div className="text-center">
