@@ -46,73 +46,102 @@ function MovieDetails(props: MovieDetailsProps) {
     if(errorCode === 404) {
       navigate('404');
     };
+
     return () => eraseMovieDetails();
   }, [errorCode]);
-  
+
+  useLayoutEffect(() => {
+    const bodyElement = document.querySelector<HTMLBodyElement>('.body');
+    if (bodyElement) {
+      bodyElement.style.height = 'auto';
+    }
+
+    return () => {
+      if (bodyElement) {
+        bodyElement.style.height = '100%'
+      }
+    };
+  }, []);
+
   return (
-    <div className="movie-details container-fluid">
-      <Row className="mb-5">
-        <Link className="movie-details__link" to="/">Go back</Link>
-      </Row>
+    <div className="movie-details container-fluid pt-5">
       {
-        loading && <div className='h1'>Loading...</div>
-      }
-
-      {
-        error && <div>Error</div>
-      }
-
-      {
-        (!loading && !error) && (
-          <>
-            <Row className="justify-content-evenly">
-              <Col lg={5} className="mb-4 mb-lg-0 px-0">
-                <div className="movie-details__header rounded-pill">
-                  <h2>{title}</h2>
-                  <div>
-                    Rating: {vote_average} 
-                    <div className="text-end">
-                      <span className="fst-italic h4">({vote_count} votes)</span></div>
-                    </div>
-                </div>
-                <div className="d-flex">
-                  <h3 className="fst-italic me-5">{tagline}</h3>
-                  <div>
-                    <h4>Genres</h4>
-                    <div>
-                      {genres?.map(genre => {
-                        return <span className="me-3" key={genre.id}>{genre.name}</span>
-                      })}
-                    </div>
-                  </div>
-                </div>
-                <p className="text-center text-lg-start">{overview}</p>
-                <p>Released on {release_date}</p>
-                <p>Runtime: {runtime} minutes</p>
-                {
-                  homepage && (
-                    <a href={homepage} target="_blank" rel="noreferrer">Visit this movie official website</a>
-                  )
-                }
-                <img 
-                  src={backdrop_path ? IMAGE_BASE_URL.concat(backdrop_path) : undefined} 
-                  alt={`${title} poster`} 
-                />
-              </Col>
-              <Col lg={5} className="text-center">
-                <img 
-                  src={poster_path ? IMAGE_BASE_URL.concat(poster_path) : undefined} 
-                  alt={`${title} poster`} 
-                />
-              </Col>
-            </Row>
-          </>
+        backdrop_path && (
+          <img 
+            className="movie-details__background-image"
+            src={IMAGE_BASE_URL.concat(backdrop_path)} 
+            alt="" 
+          />
         )
       }
-      {
-        //agregar géneros, link a la página de la película (si tiene), runtime, cantidad de gente que voto por ese puntaje, 
-        //tagline como subtítulo, fecha de estreno, poner imagen backdrop con baja opacidad de fondo
-      }
+      <div className="movie-details__z-index">
+        <Row className="mb-5">
+          <Link className="movie-details__link" to="/">Go back</Link>
+        </Row>
+        {loading && <div className='h1'>Loading...</div>}
+        {error && <div>Error</div>}
+        {
+          (!loading && !error) && (
+            <>
+              <Row className="justify-content-evenly">
+                <Col lg={5} className="mb-4 mb-lg-0 px-0 xd">
+                  <div className="movie-details__header rounded-pill">
+                    <h2>{title}</h2>
+                    <div className="movie-details__score">
+                      <span>Rating: {vote_average}</span>
+                      <span className="fst-italic h4 mb-0 ms-3">({vote_count} votes)</span>
+                    </div>
+                  </div>
+                  <div className="movie-details__body">
+                    <h3 className="movie-details__tagline">"<span>{tagline}</span>"</h3>
+                    <p className="text-center text-lg-start">{overview}</p>
+                    <div className="d-flex my-5">
+                      {release_date && <p className="me-5">Released on {release_date}</p>}
+                      {runtime && <p>Runtime: {runtime} minutes</p>}
+                    </div>
+                    {
+                      genres && (
+                        <div className="movie-details__genres">
+                          <h4>Genres: </h4>
+                          <div>
+                            {genres.map((genre, index) => {
+                              if(index === genres.length - 1) {
+                                return <span key={genre.id}>{genre.name}</span>
+                              }
+                              return <span key={genre.id}>{genre.name} - </span>
+                            })}
+                          </div>
+                        </div>
+                      )
+                    }
+                    {
+                      homepage && (
+                        <div className="text-center">
+                          <a 
+                            className="movie-details__link movie-details__link--homepage"
+                            href={homepage} 
+                            rel="noreferrer"
+                            target="_blank" 
+                          >
+                            Visit this movie official website
+                          </a>
+                        </div>
+                      )
+                    }
+                  </div>
+                </Col>
+                <Col lg={5} className="text-center">
+                  <img 
+                    className="movie-details__poster"
+                    src={poster_path ? IMAGE_BASE_URL.concat(poster_path) : undefined} 
+                    alt={`${title} poster`} 
+                  />
+                </Col>
+              </Row>
+            </>
+          )
+        }
+      </div>
     </div>
   );
 };

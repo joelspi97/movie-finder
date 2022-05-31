@@ -57,7 +57,7 @@ function MovieList(props: MovieListProps) {
   }, [loading, hasMore]);
   
   return (
-    <div className="movie-list">
+    <div className="movie-list pt-5">
       <div className="movie-list__text-wrapper">
         <h2>Welcome!</h2>
         <p>This website features an infinite scroll that gets data from a RESTful API</p>

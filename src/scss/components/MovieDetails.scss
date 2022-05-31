@@ -4,6 +4,7 @@
 
 .movie-details.container-fluid {
     padding: 0 3rem 3rem;
+    position: relative;
 
     @include breakpoint(map-get($bp, 'sm')) {
         padding: 0 2rem 3rem;
@@ -11,6 +12,21 @@
 
     @include breakpoint(map-get($bp, 'xs')) {
         padding: 0 1rem 3rem;
+    }
+
+    .movie-details__background-image {
+        height: 100%;
+        position: absolute;
+        left: 0;
+        opacity: 0.4;
+        top: 0;
+        width: 100%;
+    }
+
+    .movie-details__z-index {
+        padding: 0 1rem;
+        position: relative;
+        z-index: 1000;
     }
 
     .movie-details__link {
@@ -23,6 +39,10 @@
         text-decoration: none;
         transition: color $transition ease-in-out;
         width: fit-content;
+
+        &--homepage {
+            padding: 1rem 2rem;
+        }
 
         &:hover {
             color: $orange;
@@ -39,28 +59,78 @@
         background-color: $dark-grey;
         color: $white;
         display: flex;
+        gap: 2rem;
         justify-content: space-between;
-        margin-bottom: 2rem;
+        margin-bottom: 3rem;
         padding: 1rem 2rem;
 
+        @include breakpoint(map-get($bp, 'sm')) {
+            flex-direction: column;
+            gap: 1rem;
+            text-align: center;
+        }
+
         h2,
-        div {
+        .movie-details__score {
             font-size: map-get($fs, 'lg');
             font-weight: 700;
             margin-bottom: 0;
         }
 
-        div {
+        .movie-details__score {
+            align-items: center;
             color: $orange;
+            display: flex;
+
+            span {
+                white-space: nowrap;
+            }
+        }
+    }
+
+    .movie-details__body {
+        background-color: rgba(37, 47, 52, 0.8);
+        border-radius: 1rem;
+        padding: 2rem;
+        padding-bottom: 3rem;
+    }
+
+    .movie-details__tagline {
+        color: $light-blue;
+        font-size: map-get($fs, 'xl');
+        font-style: italic;
+        margin-bottom: 4rem;
+        text-align: center;
+
+        span {
+            font-size: map-get($fs, 'lg');
         }
     }
     
     p {
         color: $white;
         font-size: map-get($fs, 'md');
+        margin: 0;
     }
 
-    img {
+    .movie-details__genres {
+        align-items: baseline;
+        color: $white;
+        display: flex;
+        margin-bottom: 4rem;
+
+        h4 {
+            font-size: map-get($fs, "lg");
+            margin-right: 1rem;
+        }
+
+        span {
+            color: orange;
+            font-size: map-get($fs, "md");
+        }
+    }
+
+    .movie-details__poster {
         border-radius: 1rem;
         width: 100%;
 

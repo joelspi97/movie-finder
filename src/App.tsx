@@ -14,7 +14,7 @@ function App() {
         <a className="rounded" href="#footer">Skip to footer</a>
       </div>
       <Header />
-      <main className="main container-fluid pt-5">
+      <main className="main container-fluid p-0">
         <Routes>
           <Route path='/' element={<MovieList />} />
           <Route path='details/:currentMovieId' element={<MovieDetails />} />
