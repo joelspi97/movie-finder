@@ -37,7 +37,6 @@ function MovieDetails(props: MovieDetailsProps) {
   useEffect(() => {
     getDetails(currentMovieId!);
 
-    // if (!title) fijarse que hongo esto
     return () => eraseMovieDetails();
   }, []);
   

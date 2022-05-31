@@ -10,16 +10,9 @@
 
 html,
 .body,
-#root {
-    height: 100%;
-}
-
+#root,
 .main {
     height: 100%;
-
-    @include breakpoint(map-get($bp, 'lg')) {
-        height: auto;
-    }
 }
 
 html {
