@@ -31,7 +31,6 @@ export default function listReducer(listState = listInitialState, action: MovieA
       };
 
     case 'GET_NEXT_PAGE':
-      console.log(listState.pageNumber);
       return {
         ...listState,
         pageNumber: listState.pageNumber + 1

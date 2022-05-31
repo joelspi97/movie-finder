@@ -127,8 +127,8 @@
         display: flex;
 
         h4 {
-            font-size: map-get($fs, "lg");
             margin-right: 1rem;
+            margin-bottom: 0;
         }
 
         span {
