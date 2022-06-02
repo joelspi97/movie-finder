@@ -146,7 +146,7 @@ function MovieDetails(props: MovieDetailsProps) {
 
         { 
           error && (
-            <div className="movie-details__error text-center h-100 d-flex flex-column justify-content-center align-items-center">
+            <div className="error movie-details__error text-center h-100 d-flex flex-column justify-content-center align-items-center">
               <img className="mb-5" src={errorIcon} alt="" />
               <p className="text-white mb-5">
                 There was an error trying to load the details of the movie. 

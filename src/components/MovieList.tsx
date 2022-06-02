@@ -5,6 +5,7 @@ import { IMAGE_BASE_URL } from '../constants';
 import { getList, getNextPage, setQuery, resetMovies, setListSelected } from '../actions/listActions';
 import { SearchResult} from '../interfaces/movieList.interface';
 import errorIcon from '../assets/red-x.svg';
+import movieNotFoundIcon from '../assets/worried.svg';
 import '../scss/components/MovieList.scss';
 
 interface MovieListProps {
@@ -140,7 +141,7 @@ function MovieList(props: MovieListProps) {
 
       { 
         error && (
-          <div className="mt-5 d-flex flex-column justify-content-center align-items-center">
+          <div className="error mt-5 d-flex flex-column justify-content-center align-items-center">
             <img className="mb-5" src={errorIcon} alt="" />
             {
               errorCode === 422 
@@ -160,11 +161,17 @@ function MovieList(props: MovieListProps) {
         )
       }
 
-      { (movieNotFound && !error) && <p className="text-white h2">We haven't found movie titles that contain that. Please try typing something different.</p> }
+      { (movieNotFound && !error) && (
+        <div className="error mt-5 d-flex flex-column justify-content-center align-items-center">
+          <img className="mb-5" src={movieNotFoundIcon} alt="" />
+          <p className="text-white h2">
+            We haven't found movie titles that contain that. 
+            <br />
+            Please try typing something different.
+          </p>
+        </div>
+      ) }
       
-      {
-        // Acá agregar un loading spinner
-      }
       { loading && <div className="movie-list__loading">...</div> }
     </div>
   );
