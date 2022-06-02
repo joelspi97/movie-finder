@@ -7,7 +7,7 @@ export function setLoading(payload: boolean): MovieAction {
     };
 }
 
-export function setError(payload: { value: boolean, code?: string }): MovieAction {
+export function setError(payload: { value: boolean, code?: number }): MovieAction {
     return {
         type: 'SET_ERROR',
         payload

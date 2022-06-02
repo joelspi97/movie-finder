@@ -26,6 +26,7 @@
     }
 
     .movie-details__z-index {
+        height: 100%;
         padding: 0 1rem;
         position: relative;
         z-index: 1000;
@@ -148,5 +149,9 @@
         @include breakpoint(map-get($bp, 'md')) {
             width: 100%;
         }
+    }
+
+    .movie-details__error p {
+        font-size: calc(1.325rem + .9vw);
     }
 }

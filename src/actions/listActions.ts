@@ -91,7 +91,12 @@ export function getList(query: string, pageNumber: number): Dispatch<MovieAction
       
             console.error(err);
             dispatch(setMovies([]));
-            dispatch(setError({ value: true, code: err.response.status }));
+
+            if (err.response) {
+                dispatch(setError({ value: true, code: err.response.status }));
+            } else {
+                dispatch(setError({ value: true, code: undefined }));
+            }
         })
         .finally(() => {
           dispatch(setLoading(false));

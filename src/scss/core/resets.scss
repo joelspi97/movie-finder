@@ -37,6 +37,8 @@ html {
 
 .main {
     background-color: $light-grey;
+    display: flex;
+    flex-grow: 1;
 }
 
 /* Scrollbar styles  */

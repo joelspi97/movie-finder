@@ -5,6 +5,7 @@ import { Col, Row } from 'react-bootstrap';
 import { getDetails, eraseMovieDetails } from '../actions/detailsActions';
 import { IMAGE_BASE_URL } from '../constants';
 import CurrentMovieDetails from '../interfaces/movieDetails.interface';
+import errorIcon from '../assets/red-x.svg';
 import '../scss/components/MovieDetails.scss';
 
 interface MovieDetailsProps extends CurrentMovieDetails {
@@ -51,8 +52,11 @@ function MovieDetails(props: MovieDetailsProps) {
 
   useLayoutEffect(() => {
     const bodyElement = document.querySelector<HTMLBodyElement>('.body');
-    if (bodyElement) {
+
+    if(!error && bodyElement) {
       bodyElement.style.height = 'auto';
+    } else {
+      return;
     }
 
     return () => {
@@ -60,12 +64,12 @@ function MovieDetails(props: MovieDetailsProps) {
         bodyElement.style.height = '100%'
       }
     };
-  }, []);
+  }, [error]);
 
   return (
     <div className="movie-details container-fluid pt-5">
       {
-        backdrop_path && (
+        (backdrop_path && !loading && !error) && (
           <img 
             className="movie-details__background-image"
             src={IMAGE_BASE_URL.concat(backdrop_path)} 
@@ -74,15 +78,14 @@ function MovieDetails(props: MovieDetailsProps) {
         )
       }
       <div className="movie-details__z-index">
-        <Row className="mb-5">
+        <Row>
           <Link className="movie-details__link" to="/">Go back</Link>
         </Row>
-        {loading && <div className='h1'>Loading...</div>}
-        {error && <div>Error</div>}
+
         {
           (!loading && !error) && (
             <>
-              <Row className="justify-content-evenly">
+              <Row className="justify-content-evenly mt-5">
                 <Col lg={5} className="mb-4 mb-lg-0 px-0 xd">
                   <div className="movie-details__header rounded-pill">
                     <h2>{title}</h2>
@@ -140,6 +143,21 @@ function MovieDetails(props: MovieDetailsProps) {
             </>
           )
         }
+
+        { 
+          error && (
+            <div className="movie-details__error text-center h-100 d-flex flex-column justify-content-center align-items-center">
+              <img className="mb-5" src={errorIcon} alt="" />
+              <p className="text-white mb-5">
+                There was an error trying to load the details of the movie. 
+                <br />
+                Please, try again later.
+              </p> 
+            </div>
+          ) 
+        }
+
+        {loading && <div className='h1'>Loading...</div>}
       </div>
     </div>
   );

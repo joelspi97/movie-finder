@@ -15,10 +15,12 @@ export default function responseReducer(responseState = responseInitialState, ac
             }
 
         case 'SET_ERROR':
+            const updatedState = { ...responseState };
+            updatedState.error = action.payload.value;
+            updatedState.errorCode = action.payload.code
+      
             return {
-                ...responseState,
-                error: action.payload.value,
-                errorCode: action.payload.code 
+              ...updatedState
             }
         
         default: 

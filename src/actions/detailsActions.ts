@@ -42,7 +42,12 @@ export function getDetails(currentMovieId: string): Dispatch<MovieAction> {
       .catch(err => {
         if (axios.isCancel(err)) return;
         console.error(err);
-        dispatch(setError({ value: true, code: err.response.status }));
+
+        if (err.response) {
+          dispatch(setError({ value: true, code: err.response.status }));
+        } else {
+            dispatch(setError({ value: true, code: undefined }));
+        }
       })
       .finally(() => {
         dispatch(setLoading(false));

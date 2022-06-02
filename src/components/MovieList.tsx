@@ -4,11 +4,13 @@ import Movie from './Movie';
 import { IMAGE_BASE_URL } from '../constants';
 import { getList, getNextPage, setQuery, resetMovies, setListSelected } from '../actions/listActions';
 import { SearchResult} from '../interfaces/movieList.interface';
+import errorIcon from '../assets/red-x.svg';
 import '../scss/components/MovieList.scss';
 
 interface MovieListProps {
   loading: boolean;
   error:  boolean;
+  errorCode: number;
   query: string;
   pageNumber: number;
   movies: SearchResult[];
@@ -21,20 +23,22 @@ interface MovieListProps {
   setListSelected: Dispatch<boolean>;
 }
 
+
 function MovieList(props: MovieListProps) {
   const { loading,
-          error,
-          query,
-          pageNumber,
-          movies,
-          movieNotFound,
-          hasMore, 
-          resetMovies,
-          getList, 
-          getNextPage, 
-          setQuery,
-          setListSelected } = props;
-  
+    error,
+    errorCode,
+    query,
+    pageNumber,
+    movies,
+    movieNotFound,
+    hasMore, 
+    resetMovies,
+    getList, 
+    getNextPage, 
+    setQuery,
+    setListSelected } = props;
+    
   // API call
   useEffect(() => {
     resetMovies();
@@ -87,7 +91,7 @@ function MovieList(props: MovieListProps) {
     <div className="movie-list pt-5">
       <div className="movie-list__text-wrapper">
         <h2>Welcome!</h2>
-        <p>This website features an infinite scroll that gets data from a RESTful API</p>
+        <p>This website features an infinite scroll that gets data from a RESTful API.</p>
         <p className="mb-5" id="search-bar-instructions">Use the search bar to filter for particular titles.</p>
       </div>
       <input 
@@ -134,9 +138,29 @@ function MovieList(props: MovieListProps) {
         )
       }
 
-      { error && <p className="text-white h2">There was an error with your search, please try again later</p> }
+      { 
+        error && (
+          <div className="mt-5 d-flex flex-column justify-content-center align-items-center">
+            <img className="mb-5" src={errorIcon} alt="" />
+            {
+              errorCode === 422 
+                ? <p className="text-white h2">Please, avoid starting searchs with a blank space.</p> 
+                : (
+                  <p className="text-white h2">
+                    There was an error with your search. 
+                    <br />
+                    Please, try again later.
+                    {
+                      errorCode && <><br /> {`(error code ${errorCode})`}</>
+                    }
+                  </p>
+                )
+            }
+          </div>
+        )
+      }
 
-      { movieNotFound && <p className="text-white h2">We haven't found movie titles that contain that. Please try typing something different</p> }
+      { (movieNotFound && !error) && <p className="text-white h2">We haven't found movie titles that contain that. Please try typing something different.</p> }
       
       {
         // Acá agregar un loading spinner
@@ -150,6 +174,7 @@ function mapStateToProps(state: any) {
   return {
     loading: state.response.loading,
     error: state.response.error,
+    errorCode: state.response.errorCode,
 
     query: state.list.query,
     pageNumber: state.list.pageNumber,
