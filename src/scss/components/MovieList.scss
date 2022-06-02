@@ -36,29 +36,13 @@
 
     &__list {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        grid-template-columns: repeat(auto-fill, minmax(21rem, 1fr));
         grid-gap: 2rem;
         list-style: none;
         margin-bottom: 0;
-        max-height: 67vh;
+        max-height: 73vh;
         overflow: auto;
         padding: 1rem 3rem 0;
-
-        @include breakpoint(1880px) {
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-        }
-
-        @include breakpoint(1300px) {
-            grid-template-columns: 1fr 1fr 1fr;
-        }
-    
-        @include breakpoint(map-get($bp, 'lg')) {
-            grid-template-columns: 1fr 1fr;
-        }
-
-        @include breakpoint(map-get($bp, 'md')) {
-            grid-template-columns: 1fr;
-        }
     }
     
     &__loading {

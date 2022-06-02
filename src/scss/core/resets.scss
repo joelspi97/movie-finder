@@ -10,9 +10,13 @@
 
 html,
 .body,
-#root,
 .main {
     height: 100%;
+}
+
+#root {
+    height: auto;
+    min-height: 100%;
 }
 
 html {

@@ -8,32 +8,12 @@
     border: 0.15rem solid transparent;
     color: $dark-grey;
     display: flex;
+    flex-direction: column;
     height: 100%;
     text-decoration: none;
     transition: color $transition ease-in-out,
                 transform $transition ease-in-out;
-    padding: 1rem;
-
-    @include breakpoint(map-get($bp, 'md')) {
-        justify-content: space-evenly;
-        margin: 0 auto;
-        width: 80%;
-    }
-
-    @include breakpoint(map-get($bp, 'sm')) {
-        flex-direction: column;
-        height: fit-content;
-        width: 70%;
-    }
-    
-    @include breakpoint(map-get($bp, 'xs')) {
-        width: 90%;
-    }
-    
-    @include breakpoint(360px) {
-        margin-left: 0.5rem;
-        width: 100%;
-    }
+    padding: 0.5rem;
 
     &:hover {
         color: $black;
@@ -58,27 +38,8 @@
     }
 
     img {
-        aspect-ratio: 2/3;
-        margin-right: 2rem;
-        // height: 20rem;
-        width: 50%;
-
-        @include breakpoint(map-get($bp, 'md')) {
-            margin-right: 0;
-        }
-
-        @include breakpoint(map-get($bp, 'sm')) {
-            // height: 20rem;
-            margin-bottom: 2rem;
-            width: 80%;
-        }
-
-        @include breakpoint(map-get($bp, 'xs')) {
-            width: 90%;
-        }
-
-        @include breakpoint(360px) {
-            width: 100%;
-        }
+        aspect-ratio: 2/2.5;
+        margin-bottom: 0.5rem;
+        width: 100%;
     }
 }
