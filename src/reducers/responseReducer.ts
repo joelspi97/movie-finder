@@ -1,4 +1,4 @@
-import { MovieResponse, MovieAction } from "../interfaces/response.interface";
+import { MovieResponse, MovieAction } from "../interfaces/responseAndActions.interface";
 
 const responseInitialState: MovieResponse = {
     loading: false,

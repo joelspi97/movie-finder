@@ -17,4 +17,5 @@ export interface MovieList {
     hasMore: boolean,
     query: string,
     pageNumber: number;
+    listSelected: boolean;
 }

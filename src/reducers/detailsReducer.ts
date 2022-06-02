@@ -1,4 +1,4 @@
-import { MovieAction } from "../interfaces/response.interface";
+import { MovieAction } from "../interfaces/responseAndActions.interface";
 import CurrentMovieDetails from "../interfaces/movieDetails.interface";
 
 const detailsInitialState: CurrentMovieDetails = {

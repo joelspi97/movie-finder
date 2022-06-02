@@ -8,20 +8,24 @@ interface MovieProps {
   id: number;
   title: string;
   posterUrl: string;
+  listSelected: boolean;
 };
 
-const Movie = forwardRef((props: MovieProps, ref?: React.Ref<HTMLLIElement>) => {
+const Movie = forwardRef((props: MovieProps, ref?: React.Ref<HTMLAnchorElement>) => {
   const { id,
           title, 
-          posterUrl } = props;
+          posterUrl,
+          listSelected } = props;
 
   return (
-    <li ref={ref}>
+    <li>
       <Link 
         aria-label={title}
-        className="movie rounded" 
+        className="movie rounded"
+        tabIndex={listSelected ? 1 : -1} 
         title="Go to details page"
         to={`details/${id}`}
+        ref={ref}
       >
         {
           posterUrl.includes('/null') 
@@ -36,4 +40,10 @@ const Movie = forwardRef((props: MovieProps, ref?: React.Ref<HTMLLIElement>) => 
   );
 });
 
-export default connect(null, null, null, { forwardRef: true })(Movie);
+function mapStateToProps(state: any) {
+  return {
+    listSelected: state.list.listSelected
+  }
+}
+
+export default connect(mapStateToProps, null, null, { forwardRef: true })(Movie);

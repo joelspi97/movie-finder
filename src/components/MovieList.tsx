@@ -2,7 +2,7 @@ import { useRef, useCallback, useEffect, Dispatch } from 'react';
 import { connect } from 'react-redux';
 import Movie from './Movie';
 import { IMAGE_BASE_URL } from '../constants';
-import { getList, getNextPage, setQuery, resetMovies } from '../actions/listActions';
+import { getList, getNextPage, setQuery, resetMovies, setListSelected } from '../actions/listActions';
 import { SearchResult} from '../interfaces/movieList.interface';
 import '../scss/components/MovieList.scss';
 
@@ -18,6 +18,7 @@ interface MovieListProps {
   getList: Function;
   getNextPage: Dispatch<void>; 
   setQuery: Dispatch<string>;
+  setListSelected: Dispatch<boolean>;
 }
 
 function MovieList(props: MovieListProps) {
@@ -31,8 +32,10 @@ function MovieList(props: MovieListProps) {
           resetMovies,
           getList, 
           getNextPage, 
-          setQuery } = props;
+          setQuery,
+          setListSelected } = props;
   
+  // API call
   useEffect(() => {
     resetMovies();
   }, [query]);
@@ -40,9 +43,32 @@ function MovieList(props: MovieListProps) {
   useEffect(() => {
     getList(query, pageNumber);
   }, [query, pageNumber]);
+  // /API call
+
+  // Keyboard accessibility
+  function handleKeyDown(event: KeyboardEvent) {
+    if (event.key.toLowerCase() === 'enter') {
+      const movieList = event.target as HTMLElement;
+      const firstMovie = movieList.children[0].children[0];
+      (firstMovie as HTMLAnchorElement).focus();
+      setListSelected(true);
+      
+      const handleEscKey = (event: KeyboardEvent) => {
+        if (event.key.toLowerCase() === 'escape') {
+          setListSelected(false);
+          movieList.focus();
+          document.removeEventListener('keydown', handleEscKey)
+        }
+      }
+
+      document.addEventListener('keydown', handleEscKey)
+    }
+  }
+  // /Keyboard accessibility
   
+  // Inifinite scrolling
   const observerRef = useRef<IntersectionObserver>();
-  const lastMovie = useCallback((node: HTMLLIElement) => {
+  const lastMovie = useCallback((node: HTMLAnchorElement) => {
     if (loading) return;
     if (observerRef.current) observerRef.current.disconnect();
 
@@ -55,7 +81,8 @@ function MovieList(props: MovieListProps) {
 
     if (node) observerRef.current.observe(node);
   }, [loading, hasMore]);
-  
+  // /Inifinite scrolling
+
   return (
     <div className="movie-list pt-5">
       <div className="movie-list__text-wrapper">
@@ -74,7 +101,12 @@ function MovieList(props: MovieListProps) {
       
       {
         (movies.length > 0 && !error && !movieNotFound) && (
-          <ul className="movie-list__list">
+          <ul 
+            aria-label='Movie list. Press enter to navigate, and escape once you want to leave this section'
+            className='movie-list__list' 
+            tabIndex={movies.length > 0 ? 0 : -1} 
+            onKeyDown={(e: any) => handleKeyDown(e)}
+          >
             {
               movies.map((movie: any, index: number): JSX.Element => {                
                 if (movies.length === index + 1) {
@@ -131,7 +163,8 @@ const mapDispatchToProps = {
   resetMovies,
   getList,
   getNextPage,
-  setQuery
+  setQuery,
+  setListSelected
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MovieList);

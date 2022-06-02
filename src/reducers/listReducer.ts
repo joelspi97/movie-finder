@@ -1,4 +1,4 @@
-import { MovieAction } from "../interfaces/response.interface";
+import { MovieAction } from "../interfaces/responseAndActions.interface";
 import { MovieList } from "../interfaces/movieList.interface";
 
 const listInitialState: MovieList = {
@@ -6,7 +6,8 @@ const listInitialState: MovieList = {
     movieNotFound: false,
     hasMore: false,
     query: '',
-    pageNumber: 1
+    pageNumber: 1,
+    listSelected: false
 };
 
 export default function listReducer(listState = listInitialState, action: MovieAction): MovieList {
@@ -47,6 +48,12 @@ export default function listReducer(listState = listInitialState, action: MovieA
         ...listState,
         hasMore: action.payload
       };
+
+      case 'SET_LIST_SELECTED':
+        return {
+          ...listState,
+          listSelected: action.payload
+        };
 
     default:
       return listState;

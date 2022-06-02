@@ -1,4 +1,4 @@
-import { MovieAction } from "../interfaces/response.interface";
+import { MovieAction } from "../interfaces/responseAndActions.interface";
 
 export function setLoading(payload: boolean): MovieAction {
     return {

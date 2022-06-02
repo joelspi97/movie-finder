@@ -1,4 +1,4 @@
-import { MovieAction } from "../interfaces/response.interface";
+import { MovieAction } from "../interfaces/responseAndActions.interface";
 import axios from "axios";
 import { setLoading, setError } from "./responseActions";
 import { BASE_URL, API_KEY } from "../constants";

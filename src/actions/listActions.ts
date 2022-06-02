@@ -1,4 +1,4 @@
-import { MovieAction } from '../interfaces/response.interface';
+import { MovieAction } from '../interfaces/responseAndActions.interface';
 import { BASE_URL, API_KEY } from '../constants';
 import { Dispatch } from 'react';
 import { SearchedMovies } from '../interfaces/movieList.interface';
@@ -42,6 +42,13 @@ export function getNextPage(): MovieAction {
 export function setQuery(payload: string): MovieAction {
     return {
         type: 'SET_QUERY',
+        payload
+    };
+}
+
+export function setListSelected(payload: boolean): MovieAction {
+    return {
+        type: 'SET_LIST_SELECTED',
         payload
     };
 }
