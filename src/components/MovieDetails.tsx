@@ -4,6 +4,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { Col, Row } from 'react-bootstrap';
 import { getDetails, eraseMovieDetails } from '../actions/detailsActions';
 import { IMAGE_BASE_URL } from '../constants';
+import { eraseToken, getRequestToken } from '../actions/voteActions';
 import CurrentMovieDetails from '../interfaces/movieDetails.interface';
 import errorIcon from '../assets/red-x.svg';
 import '../scss/components/MovieDetails.scss';
@@ -14,6 +15,9 @@ interface MovieDetailsProps extends CurrentMovieDetails {
   errorCode: number;
   getDetails: Dispatch<string>;
   eraseMovieDetails: Dispatch<void>;
+  getRequestToken: Dispatch<void>;
+  token: string;
+  eraseToken: any;
 }
 
 function MovieDetails(props: MovieDetailsProps) {    
@@ -32,15 +36,21 @@ function MovieDetails(props: MovieDetailsProps) {
           vote_average,
           vote_count,
           getDetails,
-          eraseMovieDetails } = props;
+          eraseMovieDetails,
+          getRequestToken,
+          token,
+          eraseToken } = props;
           
+  // API call
   const { currentMovieId } = useParams();
   useEffect(() => {
     getDetails(currentMovieId!);
 
     return () => eraseMovieDetails();
   }, []);
+  // /API call
   
+  // Redirection in case of 404 error
   const navigate = useNavigate();
   useLayoutEffect(() => {
     if(errorCode === 404) {
@@ -49,7 +59,9 @@ function MovieDetails(props: MovieDetailsProps) {
 
     return () => eraseMovieDetails();
   }, [errorCode]);
+  // /Redirection in case of 404 error
 
+  // Style adjustments for error message and loading spinner
   useLayoutEffect(() => {
     const bodyElement = document.querySelector<HTMLBodyElement>('.body');
     
@@ -65,6 +77,22 @@ function MovieDetails(props: MovieDetailsProps) {
       }
     };
   }, [error, loading]);
+  // /Style adjustments for error message and loading spinner
+
+  // Redirection for TMDb authentication
+  function openInNewTab(token: string) {
+    // Esta url va a haber que modificarla una vez que la página esté subida
+    // Fijarse si esta manera de resolverlo vale la pena
+    const win = window.open(`https://www.themoviedb.org/authenticate/${token}?redirect_to=http://localhost:3000/details/${currentMovieId}`, '_blank');
+  }
+  
+  useEffect(() => {
+    if(token) {
+      openInNewTab(token);
+      eraseToken();
+    }
+  }, [token]);
+  // /Redirection for TMDb authentication
 
   return (
     <div className="movie-details container-fluid pt-5">
@@ -120,7 +148,7 @@ function MovieDetails(props: MovieDetailsProps) {
                       homepage && (
                         <div className="text-center">
                           <a 
-                            className="movie-details__link movie-details__link--homepage"
+                            className="movie-details__link"
                             href={homepage} 
                             rel="noreferrer"
                             target="_blank" 
@@ -130,6 +158,15 @@ function MovieDetails(props: MovieDetailsProps) {
                         </div>
                       )
                     }
+                    <div className='movie-details__user-vote'>
+                      <p>Do you want to rate this movie?</p>
+                      <button 
+                        className='movie-details__link'
+                        onClick={() => getRequestToken()}  
+                      >
+                        Click here to vote!
+                      </button>
+                    </div>
                   </div>
                 </Col>
                 <Col lg={5} className="text-center">
@@ -185,13 +222,17 @@ function mapStateToProps(state: any) {
     tagline: state.details.tagline,
     title: state.details.title,
     vote_average: state.details.vote_average,
-    vote_count: state.details.vote_count
+    vote_count: state.details.vote_count,
+
+    token: state.vote.token
   };
 }
 
 const mapDispatchToProps = {
   getDetails,
-  eraseMovieDetails
+  eraseMovieDetails,
+  getRequestToken,
+  eraseToken
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MovieDetails);

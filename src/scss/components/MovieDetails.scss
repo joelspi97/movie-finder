@@ -45,10 +45,6 @@
         transition: color $transition ease-in-out;
         width: fit-content;
 
-        &--homepage {
-            padding: 1rem 2rem;
-        }
-
         &:hover {
             color: $orange;
         }
@@ -135,6 +131,18 @@
         span {
             color: orange;
             font-size: map-get($fs, "md");
+        }
+    }
+
+    .movie-details__user-vote {
+        font-size: map-get($fs, 'md');
+        margin-top: 4rem;
+        text-align: center;
+
+        //cambiar de lugar los dos links
+        
+        .movie-details__link {
+            margin-top: 1rem;
         }
     }
 
