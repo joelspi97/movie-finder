@@ -80,15 +80,17 @@ export function getList(query: string, pageNumber: number): Dispatch<MovieAction
                 dispatch(setMovieNotFound(true));
                 dispatch(setMovies([]))
             } else {
-                console.log(res.data);
+                // console.log(res.data);
                 dispatch(setMovies(res.data.results));
             }
       
             dispatch(setHasMore(res.data.page !== res.data.total_pages));
+            dispatch(setLoading(false));
         })
         .catch(err => {
             if (axios.isCancel(err)) return;
-      
+            
+            dispatch(setLoading(false));
             console.error(err);
             dispatch(setMovies([]));
 
@@ -97,9 +99,6 @@ export function getList(query: string, pageNumber: number): Dispatch<MovieAction
             } else {
                 dispatch(setError({ value: true, code: undefined }));
             }
-        })
-        .finally(() => {
-          dispatch(setLoading(false));
         })
     };
 }

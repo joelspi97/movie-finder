@@ -37,3 +37,32 @@
         max-width: 12rem;
     }
 }
+
+.loading {
+    flex-grow: 1;
+    min-height: 20rem;
+
+    .spinner {
+        align-items: center;
+        display: flex;
+        height: 100%;
+        justify-content: center;
+        margin-bottom: 4.5rem;
+
+        &::after {
+            animation: spin 1.2s linear infinite;
+            content: '';
+            border: 0.5rem solid $dark-grey;
+            border-radius: 50%;
+            border-top-color: $orange;
+            height: 5rem;
+            width: 5rem;
+        }
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(1turn);
+    }
+}

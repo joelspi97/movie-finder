@@ -36,11 +36,14 @@ export function getDetails(currentMovieId: string): Dispatch<MovieAction> {
         signal: abortController.signal
     })
       .then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         dispatch(setMovieDetails(res.data));
+        dispatch(setLoading(false));
       })
       .catch(err => {
         if (axios.isCancel(err)) return;
+        
+        dispatch(setLoading(false));
         console.error(err);
 
         if (err.response) {
@@ -48,9 +51,6 @@ export function getDetails(currentMovieId: string): Dispatch<MovieAction> {
         } else {
             dispatch(setError({ value: true, code: undefined }));
         }
-      })
-      .finally(() => {
-        dispatch(setLoading(false));
       })
   };
 }

@@ -49,11 +49,11 @@ export default function listReducer(listState = listInitialState, action: MovieA
         hasMore: action.payload
       };
 
-      case 'SET_LIST_SELECTED':
-        return {
-          ...listState,
-          listSelected: action.payload
-        };
+    case 'SET_LIST_SELECTED':
+      return {
+        ...listState,
+        listSelected: action.payload
+      };
 
     default:
       return listState;

@@ -3,6 +3,9 @@
 @import '../abstracts/mixins/focus.scss';
 
 .movie-list {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
     padding-bottom: 3rem;
     text-align: center;
     width: 100%;
@@ -44,6 +47,7 @@
         max-height: 73vh;
         overflow: auto;
         padding: 1.5rem;
+        width: 97%;
 
         &:focus {
             @include focus($orange, false);

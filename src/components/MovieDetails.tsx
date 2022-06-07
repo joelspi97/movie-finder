@@ -52,8 +52,8 @@ function MovieDetails(props: MovieDetailsProps) {
 
   useLayoutEffect(() => {
     const bodyElement = document.querySelector<HTMLBodyElement>('.body');
-
-    if(!error && bodyElement) {
+    
+    if(!error && !loading && bodyElement) {
       bodyElement.style.height = 'auto';
     } else {
       return;
@@ -64,7 +64,7 @@ function MovieDetails(props: MovieDetailsProps) {
         bodyElement.style.height = '100%'
       }
     };
-  }, [error]);
+  }, [error, loading]);
 
   return (
     <div className="movie-details container-fluid pt-5">
@@ -157,7 +157,13 @@ function MovieDetails(props: MovieDetailsProps) {
           ) 
         }
 
-        {loading && <div className='h1'>Loading...</div>}
+        {
+          loading && (
+            <div className='loading text-center h-100 d-flex flex-column justify-content-center align-items-center'>
+              <div className='spinner'></div>
+            </div>
+          )
+        }
       </div>
     </div>
   );

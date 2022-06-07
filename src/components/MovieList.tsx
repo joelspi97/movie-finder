@@ -161,18 +161,26 @@ function MovieList(props: MovieListProps) {
         )
       }
 
-      { (movieNotFound && !error) && (
-        <div className="error mt-5 d-flex flex-column justify-content-center align-items-center">
-          <img className="mb-5" src={movieNotFoundIcon} alt="" />
-          <p className="text-white h2">
-            We haven't found movie titles that contain that. 
-            <br />
-            Please try typing something different.
-          </p>
-        </div>
-      ) }
+      { 
+        (movieNotFound && !error) && (
+          <div className="error mt-5 d-flex flex-column justify-content-center align-items-center">
+            <img className="mb-5" src={movieNotFoundIcon} alt="" />
+            <p className="text-white h2">
+              We haven't found movie titles that contain that. 
+              <br />
+              Please try typing something different.
+            </p>
+          </div>
+        ) 
+      }
       
-      { loading && <div className="movie-list__loading">...</div> }
+      {
+        loading && (
+          <div className='loading text-center h-100 d-flex flex-column justify-content-center align-items-center'>
+            <div className='spinner mb-0'></div>
+          </div>
+        )
+      }
     </div>
   );
 };
