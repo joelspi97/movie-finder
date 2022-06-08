@@ -26,7 +26,7 @@ export function getDetails(currentMovieId: string): Dispatch<MovieAction> {
   abortController = new AbortController();
   
   return (dispatch: any) => {
-    let url = BASE_URL.concat(`/movie/${currentMovieId}`)
+    let url = BASE_URL.concat(`movie/${currentMovieId}`)
     
     dispatch(setLoading(true));
     dispatch(setError({ value: false, code: undefined }));

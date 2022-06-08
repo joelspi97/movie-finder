@@ -1,10 +1,10 @@
-import { useEffect, useLayoutEffect, Dispatch } from 'react';
+import { useEffect, useLayoutEffect, Dispatch, useMemo, FormEvent } from 'react';
 import { connect } from 'react-redux';
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate, Link, useLocation } from "react-router-dom";
 import { Col, Row } from 'react-bootstrap';
 import { getDetails, eraseMovieDetails } from '../actions/detailsActions';
 import { IMAGE_BASE_URL } from '../constants';
-import { eraseToken, getRequestToken } from '../actions/voteActions';
+import { setToken, eraseToken, getRequestToken, createSessionId, eraseSessionId, rateMovie } from '../actions/voteActions';
 import CurrentMovieDetails from '../interfaces/movieDetails.interface';
 import errorIcon from '../assets/red-x.svg';
 import '../scss/components/MovieDetails.scss';
@@ -17,7 +17,12 @@ interface MovieDetailsProps extends CurrentMovieDetails {
   eraseMovieDetails: Dispatch<void>;
   getRequestToken: Dispatch<void>;
   token: string;
+  setToken: Dispatch<string>;
   eraseToken: any;
+  createSessionId: Dispatch<string>;
+  eraseSessionId: Dispatch<void>;
+  rateMovie: Function;
+  sessionId: string;
 }
 
 function MovieDetails(props: MovieDetailsProps) {    
@@ -39,7 +44,12 @@ function MovieDetails(props: MovieDetailsProps) {
           eraseMovieDetails,
           getRequestToken,
           token,
-          eraseToken } = props;
+          setToken,
+          eraseToken,
+          createSessionId,
+          eraseSessionId,
+          rateMovie,
+          sessionId } = props;
           
   // API call
   const { currentMovieId } = useParams();
@@ -79,20 +89,45 @@ function MovieDetails(props: MovieDetailsProps) {
   }, [error, loading]);
   // /Style adjustments for error message and loading spinner
 
-  // Redirection for TMDb authentication
-  function openInNewTab(token: string) {
-    // Esta url va a haber que modificarla una vez que la página esté subida
-    // Fijarse si esta manera de resolverlo vale la pena
-    const win = window.open(`https://www.themoviedb.org/authenticate/${token}?redirect_to=http://localhost:3000/details/${currentMovieId}`, '_blank');
-  }
-  
+  // TMDb authentication
   useEffect(() => {
     if(token) {
-      openInNewTab(token);
+      // Esta url va a haber que modificarla una vez que la página esté subida
+      window.open(`https://www.themoviedb.org/authenticate/${token}?redirect_to=http://localhost:3000/details/${currentMovieId}`, '_blank');
       eraseToken();
     }
   }, [token]);
-  // /Redirection for TMDb authentication
+
+  function useQuery() {
+    const { search } = useLocation();
+    return useMemo(() => new URLSearchParams(search), [search]);
+  }
+
+  let query = useQuery();
+  let userPermission = (query.get('approved') === 'true');
+  useEffect(() => {
+    if (userPermission) {
+      let currentToken = query.get('request_token') as string;
+      setToken(currentToken);
+    };
+    
+    return () => eraseToken();
+  }, [token]);
+  
+  function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    createSessionId(token);
+  }
+  
+  useEffect(() => {
+    if (sessionId) {
+      console.log('rating');
+      rateMovie(sessionId, currentMovieId, 10);
+    }
+
+    return () => eraseSessionId();
+  }, [sessionId]);
+  // /TMDb authentication
 
   return (
     <div className="movie-details container-fluid pt-5">
@@ -158,14 +193,38 @@ function MovieDetails(props: MovieDetailsProps) {
                         </div>
                       )
                     }
-                    <div className='movie-details__user-vote'>
+                    <div className="movie-details__user-vote">
                       <p>Do you want to rate this movie?</p>
-                      <button 
-                        className='movie-details__link'
-                        onClick={() => getRequestToken()}  
-                      >
-                        Click here to vote!
-                      </button>
+
+                      {
+                        userPermission
+                        ? (
+                          <form onSubmit={e => handleSubmit(e)}>
+                            <select name="vote" id="user-vote">
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                              <option value="6">6</option>
+                              <option value="7">7</option>
+                              <option value="8">8</option>
+                              <option value="9">9</option>
+                              <option value="10">10</option>
+                            </select>
+                            <button type="submit">Submit</button>
+                          </form>
+                          )
+                        : (
+                            <button 
+                              className="movie-details__link"
+                              onClick={() => getRequestToken()}  
+                            >
+                              Click here to vote!
+                            </button>
+                          )
+                      }
+                      
                     </div>
                   </div>
                 </Col>
@@ -224,7 +283,8 @@ function mapStateToProps(state: any) {
     vote_average: state.details.vote_average,
     vote_count: state.details.vote_count,
 
-    token: state.vote.token
+    token: state.vote.token,
+    sessionId: state.vote.sessionId
   };
 }
 
@@ -232,7 +292,11 @@ const mapDispatchToProps = {
   getDetails,
   eraseMovieDetails,
   getRequestToken,
-  eraseToken
+  setToken,
+  eraseToken,
+  createSessionId,
+  eraseSessionId,
+  rateMovie
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MovieDetails);
