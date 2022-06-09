@@ -4,7 +4,7 @@ import { useParams, useNavigate, Link, useLocation } from "react-router-dom";
 import { Col, Row } from 'react-bootstrap';
 import { getDetails, eraseMovieDetails } from '../actions/detailsActions';
 import { IMAGE_BASE_URL } from '../constants';
-import { setToken, eraseToken, getRequestToken, createSessionId, eraseSessionId, rateMovie } from '../actions/voteActions';
+import { setToken, eraseToken, getRequestToken, createSessionId, rateMovie, setHasVoted } from '../actions/voteActions';
 import CurrentMovieDetails from '../interfaces/movieDetails.interface';
 import errorIcon from '../assets/red-x.svg';
 import '../scss/components/MovieDetails.scss';
@@ -20,9 +20,10 @@ interface MovieDetailsProps extends CurrentMovieDetails {
   setToken: Dispatch<string>;
   eraseToken: any;
   createSessionId: Dispatch<string>;
-  eraseSessionId: Dispatch<void>;
   rateMovie: Function;
   sessionId: string;
+  hasVoted: boolean;
+  setHasVoted: Dispatch<boolean>;
 }
 
 function MovieDetails(props: MovieDetailsProps) {    
@@ -47,87 +48,71 @@ function MovieDetails(props: MovieDetailsProps) {
           setToken,
           eraseToken,
           createSessionId,
-          eraseSessionId,
           rateMovie,
-          sessionId } = props;
+          sessionId,
+          hasVoted,
+          setHasVoted } = props;
           
-  // API call
+  // API call to GET movie details
   const { currentMovieId } = useParams();
   useEffect(() => {
     getDetails(currentMovieId!);
 
     return () => eraseMovieDetails();
-  }, []);
-  // /API call
-  
+  }, [currentMovieId]);
+  // /API call to GET movie details
+
   // Redirection in case of 404 error
   const navigate = useNavigate();
   useLayoutEffect(() => {
-    if(errorCode === 404) {
+    if (errorCode === 404) {
       navigate('404');
-    };
+    }
 
     return () => eraseMovieDetails();
   }, [errorCode]);
   // /Redirection in case of 404 error
 
-  // Style adjustments for error message and loading spinner
-  useLayoutEffect(() => {
-    const bodyElement = document.querySelector<HTMLBodyElement>('.body');
-    
-    if(!error && !loading && bodyElement) {
-      bodyElement.style.height = 'auto';
-    } else {
-      return;
-    }
-
-    return () => {
-      if (bodyElement) {
-        bodyElement.style.height = '100%'
-      }
-    };
-  }, [error, loading]);
-  // /Style adjustments for error message and loading spinner
-
   // TMDb authentication
-  useEffect(() => {
-    if(token) {
-      // Esta url va a haber que modificarla una vez que la página esté subida
-      window.open(`https://www.themoviedb.org/authenticate/${token}?redirect_to=http://localhost:3000/details/${currentMovieId}`, '_blank');
-      eraseToken();
-    }
-  }, [token]);
-
   function useQuery() {
     const { search } = useLocation();
     return useMemo(() => new URLSearchParams(search), [search]);
   }
-
+  
   let query = useQuery();
   let userPermission = (query.get('approved') === 'true');
+
   useEffect(() => {
+    if (token) {
+      // Esta url va a haber que modificarla una vez que la página esté subida
+      window.open(`https://www.themoviedb.org/authenticate/${token}?redirect_to=http://localhost:3000/details/${currentMovieId}`, '_blank');
+    }
+    
     if (userPermission) {
       let currentToken = query.get('request_token') as string;
       setToken(currentToken);
+      
+      if (!sessionId) {
+        createSessionId(token);
+      }
     };
     
-    return () => eraseToken();
+    return () => {
+      eraseToken();
+    };
   }, [token]);
+  // /TMDb authentication
   
+  // User vote handling
+  useEffect(() => {
+    setHasVoted(false);
+  }, []);
+
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    createSessionId(token);
+    rateMovie(sessionId, currentMovieId, 10);
   }
-  
-  useEffect(() => {
-    if (sessionId) {
-      console.log('rating');
-      rateMovie(sessionId, currentMovieId, 10);
-    }
-
-    return () => eraseSessionId();
-  }, [sessionId]);
-  // /TMDb authentication
+  // /User vote handling
 
   return (
     <div className="movie-details container-fluid pt-5">
@@ -149,7 +134,7 @@ function MovieDetails(props: MovieDetailsProps) {
           (!loading && !error) && (
             <>
               <Row className="justify-content-evenly mt-5">
-                <Col lg={5} className="mb-4 mb-lg-0 px-0 xd">
+                <Col lg={5} className="mb-4 mb-lg-0 px-0">
                   <div className="movie-details__header rounded-pill">
                     <h2>{title}</h2>
                     <div className="movie-details__score">
@@ -194,35 +179,42 @@ function MovieDetails(props: MovieDetailsProps) {
                       )
                     }
                     <div className="movie-details__user-vote">
-                      <p>Do you want to rate this movie?</p>
+                      {!hasVoted && <p>Do you want to rate this movie?</p>}
+                      {
+                        !hasVoted && ( 
+                          sessionId
+                          ? (
+                            <form onSubmit={e => handleSubmit(e)}>
+                              <select name="vote" id="user-vote">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                              </select>
+                              <button type="submit">Submit</button>
+                            </form>
+                          )
+                          : (
+                              <button 
+                                className="movie-details__link"
+                                onClick={() => getRequestToken()}  
+                              >
+                                Click here to vote!
+                              </button>
+                          )
+                        )
+                      }
 
                       {
-                        userPermission
-                        ? (
-                          <form onSubmit={e => handleSubmit(e)}>
-                            <select name="vote" id="user-vote">
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                              <option value="4">4</option>
-                              <option value="5">5</option>
-                              <option value="6">6</option>
-                              <option value="7">7</option>
-                              <option value="8">8</option>
-                              <option value="9">9</option>
-                              <option value="10">10</option>
-                            </select>
-                            <button type="submit">Submit</button>
-                          </form>
-                          )
-                        : (
-                            <button 
-                              className="movie-details__link"
-                              onClick={() => getRequestToken()}  
-                            >
-                              Click here to vote!
-                            </button>
-                          )
+                        hasVoted && (
+                          <p className='mb-4'>Your vote has been succesfully submitted!</p>
+                        )
                       }
                       
                     </div>
@@ -245,9 +237,9 @@ function MovieDetails(props: MovieDetailsProps) {
             <div className="error movie-details__error text-center h-100 d-flex flex-column justify-content-center align-items-center">
               <img className="mb-5" src={errorIcon} alt="" />
               <p className="text-white mb-5">
-                There was an error trying to load the details of the movie. 
+                An error has ocurred. 
                 <br />
-                Please, try again later.
+                Please, refresh the page or try again later.
               </p> 
             </div>
           ) 
@@ -284,7 +276,8 @@ function mapStateToProps(state: any) {
     vote_count: state.details.vote_count,
 
     token: state.vote.token,
-    sessionId: state.vote.sessionId
+    sessionId: state.vote.sessionId,
+    hasVoted: state.vote.hasVoted
   };
 }
 
@@ -295,8 +288,8 @@ const mapDispatchToProps = {
   setToken,
   eraseToken,
   createSessionId,
-  eraseSessionId,
-  rateMovie
+  rateMovie,
+  setHasVoted
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MovieDetails);

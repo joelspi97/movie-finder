@@ -3,11 +3,13 @@ import { MovieAction } from "../interfaces/responseAndActions.interface";
 interface VoteState {
     token: null | string;
     sessionId: null | string;
+    hasVoted: boolean;
 };
 
 const voteInitialState: VoteState = {
     token: null,
-    sessionId: null
+    sessionId: null,
+    hasVoted: false
 }
 
 export default function voteReducer(voteState = voteInitialState, action: MovieAction) {
@@ -34,6 +36,12 @@ export default function voteReducer(voteState = voteInitialState, action: MovieA
             return {
                 ...voteState,
                 sessionId: null
+            };
+
+        case 'SET_HAS_VOTED':
+            return {
+                ...voteState,
+                hasVoted: action.payload
             };
         
         default: 

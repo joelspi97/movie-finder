@@ -49,7 +49,7 @@ export function getDetails(currentMovieId: string): Dispatch<MovieAction> {
         if (err.response) {
           dispatch(setError({ value: true, code: err.response.status }));
         } else {
-            dispatch(setError({ value: true, code: undefined }));
+          dispatch(setError({ value: true, code: undefined }));
         }
       })
   };

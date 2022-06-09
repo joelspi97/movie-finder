@@ -92,8 +92,7 @@ function MovieList(props: MovieListProps) {
     <div className="movie-list pt-5">
       <div className="movie-list__text-wrapper">
         <h2>Welcome!</h2>
-        <p>This website features an infinite scroll that gets data from a RESTful API.</p>
-        <p className="mb-5" id="search-bar-instructions">Use the search bar to filter for particular titles.</p>
+        <p className="mb-5" id="search-bar-instructions">Use the search bar to filter for specific titles.</p>
       </div>
       <input 
         aria-labelledby="search-bar-instructions"

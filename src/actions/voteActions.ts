@@ -1,6 +1,6 @@
 import { MovieAction } from "../interfaces/responseAndActions.interface";
 import axios from "axios";
-import { setLoading, setError } from "./responseActions";
+import { setError } from "./responseActions";
 import { BASE_URL, API_KEY } from "../constants";
 import { RequestToken } from "../interfaces/responseAndActions.interface";
 import { Dispatch } from "react";
@@ -31,8 +31,15 @@ export function eraseSessionId(): MovieAction {
   };
 };
 
+export function setHasVoted(payload: boolean): MovieAction {
+  return {
+    type: 'SET_HAS_VOTED',
+    payload
+  };
+};
+
 let abortController: AbortController;
-function checkAxiosController() {
+function updateAxiosController() {
   if (abortController) {
     abortController.abort();
   }
@@ -40,7 +47,7 @@ function checkAxiosController() {
 }
 
 export function getRequestToken() {
-  checkAxiosController();
+  updateAxiosController();
   
   return (dispatch: Dispatch<any>): void => {
     let url = BASE_URL.concat(`authentication/token/new`);
@@ -57,13 +64,19 @@ export function getRequestToken() {
         if (axios.isCancel(err)) return;
         
         console.error(err);
-        dispatch(setError({ value: true, code: err.response.status }));
+        dispatch(eraseToken());
+        
+        if (err.response) {
+          dispatch(setError({ value: true, code: err.response.status }));
+        } else {
+          dispatch(setError({ value: true, code: undefined }));
+        }
       })
   };
 }
 
 export function createSessionId(approvedToken: string) {
-  checkAxiosController();
+  updateAxiosController();
   
   return (dispatch: Dispatch<any>): void => {
     let url = BASE_URL.concat(`authentication/session/new`);
@@ -78,15 +91,21 @@ export function createSessionId(approvedToken: string) {
       })
       .catch(err => {
         if (axios.isCancel(err)) return;
+        if (err.response.status === 401) return;
         
         console.error(err);
-        dispatch(setError({ value: true, code: err.response.status }));
+
+        if (err.response) {
+          dispatch(setError({ value: true, code: err.response.status }));
+        } else {
+          dispatch(setError({ value: true, code: undefined }));
+        }
       })
   };
 }
 
 export function rateMovie(sessionId: string, currentMovieId: string, userVote: number) {
-  checkAxiosController();
+  updateAxiosController();
   
   return (dispatch: Dispatch<any>): void => {
     let url = BASE_URL.concat(`movie/${currentMovieId}/rating`);
@@ -97,13 +116,20 @@ export function rateMovie(sessionId: string, currentMovieId: string, userVote: n
     })
       .then(res => {
         console.log(res.data);
-        console.log('votacion funco');
+        dispatch(setHasVoted(true));
       })
       .catch(err => {
         if (axios.isCancel(err)) return;
         
         console.error(err);
-        dispatch(setError({ value: true, code: err.response.status }));
+        dispatch(setHasVoted(false));
+        dispatch(eraseSessionId());
+        
+        if (err.response) {
+          dispatch(setError({ value: true, code: err.response.status }));
+        } else {
+          dispatch(setError({ value: true, code: undefined }));
+        }
       })
   };
 }
