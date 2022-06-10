@@ -146,12 +146,12 @@ function MovieDetails(props: MovieDetailsProps) {
                     <h3 className="movie-details__tagline">{tagline}</h3>
                     <p className="text-center text-lg-start">{overview}</p>
                     <div className="movie-details__movie-data">
-                      {release_date && <p>Released on {release_date}</p>}
-                      {runtime && <p>Runtime: {runtime} minutes</p>}
+                      {release_date && <p><span className="fw-bold">Released on: </span>{release_date}</p>}
+                      {runtime && <p><span className="fw-bold">Runtime: </span>{runtime} minutes</p>}
                       {
                         genres && (
                           <div className="movie-details__genres">
-                            <h4>Genres: </h4>
+                            <p>Genres: </p>
                             <div>
                               {genres.map((genre, index) => {
                                 if(index === genres.length - 1) {
@@ -179,7 +179,7 @@ function MovieDetails(props: MovieDetailsProps) {
                       )
                     }
                     <div className="movie-details__user-vote">
-                      {!hasVoted && <p>Do you want to rate this movie?</p>}
+                      {!hasVoted && <h4>Do you want to rate this movie?</h4>}
                       {
                         !hasVoted && ( 
                           sessionId
@@ -201,12 +201,19 @@ function MovieDetails(props: MovieDetailsProps) {
                             </form>
                           )
                           : (
+                            <>
+                              <p className="my-4">
+                                To rate a movie you need to give us permission from your TMDb account.
+                                <br />
+                                Follow the link below to open TMDb, and press the "Approve" button.
+                              </p>
                               <button 
                                 className="movie-details__link"
                                 onClick={() => getRequestToken()}  
-                              >
+                                >
                                 Click here to vote!
                               </button>
+                            </>
                           )
                         )
                       }

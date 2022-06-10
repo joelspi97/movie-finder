@@ -123,14 +123,14 @@
         color: $white;
         display: flex;
 
-        h4 {
+        p {
+            font-weight: 700;
             margin-right: 1rem;
             margin-bottom: 0;
         }
 
         span {
-            color: orange;
-            font-size: map-get($fs, "md");
+            font-size: map-get($fs, 'md');
         }
     }
 
@@ -139,11 +139,17 @@
         margin-top: 4rem;
         text-align: center;
 
+        h4 {
+            color: $orange;
+            font-size: map-get($fs, 'md') + 0.2rem;
+            font-weight: 700;
+        }
+
         .movie-details__vote-form {
             align-items: center;
             display: flex;
             justify-content: center;
-            margin-top: 0.5rem;
+            margin-top: 1.5rem;
 
             select, 
             button {
@@ -152,11 +158,11 @@
                 height: 3.3rem;
                 justify-content: center;
                 margin-top: 0;
+                position: relative;
                 text-align: center;
                 width: 8rem;
 
                 &:focus {
-                    position: relative;
                     z-index: 1;
                 }
             }
@@ -164,6 +170,7 @@
             select {
                 border-radius: 50rem 0 0 50rem;
                 border-right: 0.1rem solid $light-blue;
+                line-height: 2rem; 
             }
 
             button {
