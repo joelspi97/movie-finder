@@ -184,8 +184,8 @@ function MovieDetails(props: MovieDetailsProps) {
                         !hasVoted && ( 
                           sessionId
                           ? (
-                            <form onSubmit={e => handleSubmit(e)}>
-                              <select name="vote" id="user-vote">
+                            <form className="movie-details__vote-form rounded-pill" onSubmit={e => handleSubmit(e)}>
+                              <select className="movie-details__link" name="vote" id="user-vote">
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -197,7 +197,7 @@ function MovieDetails(props: MovieDetailsProps) {
                                 <option value="9">9</option>
                                 <option value="10">10</option>
                               </select>
-                              <button type="submit">Submit</button>
+                              <button className="movie-details__link" type="submit">Submit</button>
                             </form>
                           )
                           : (

@@ -139,7 +139,38 @@
         margin-top: 4rem;
         text-align: center;
 
-        //cambiar de lugar los dos links
+        .movie-details__vote-form {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            margin-top: 0.5rem;
+
+            select, 
+            button {
+                align-items: center;
+                display: flex;
+                height: 3.3rem;
+                justify-content: center;
+                margin-top: 0;
+                text-align: center;
+                width: 8rem;
+
+                &:focus {
+                    position: relative;
+                    z-index: 1;
+                }
+            }
+
+            select {
+                border-radius: 50rem 0 0 50rem;
+                border-right: 0.1rem solid $light-blue;
+            }
+
+            button {
+                border-left: 0.1rem solid $light-blue;
+                border-radius: 0 50rem 50rem 0;
+            }
+        }
         
         .movie-details__link {
             margin-top: 1rem;
