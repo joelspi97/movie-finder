@@ -185,18 +185,20 @@ function MovieDetails(props: MovieDetailsProps) {
                           sessionId
                           ? (
                             <form className="movie-details__vote-form rounded-pill" onSubmit={e => handleSubmit(e)}>
-                              <select className="movie-details__link" name="vote" id="user-vote">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                              </select>
+                              <div className="movie-details__select-wrapper">
+                                <select className="movie-details__link" name="vote" id="user-vote">
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                  <option value="4">4</option>
+                                  <option value="5">5</option>
+                                  <option value="6">6</option>
+                                  <option value="7">7</option>
+                                  <option value="8">8</option>
+                                  <option value="9">9</option>
+                                  <option value="10">10</option>
+                                </select>
+                              </div>
                               <button className="movie-details__link" type="submit">Submit</button>
                             </form>
                           )
