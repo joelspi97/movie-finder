@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, Dispatch, useMemo, FormEvent } from 'react';
+import { useEffect, useLayoutEffect, Dispatch, useMemo, FormEvent, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams, useNavigate, Link, useLocation } from "react-router-dom";
 import { Col, Row } from 'react-bootstrap';
@@ -104,13 +104,15 @@ function MovieDetails(props: MovieDetailsProps) {
   // /TMDb authentication
   
   // User vote handling
+  const [userRating, setUserRating] = useState<string>('1');
+
   useEffect(() => {
     setHasVoted(false);
   }, []);
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    rateMovie(sessionId, currentMovieId, 10);
+    rateMovie(sessionId, currentMovieId, userRating);
   }
   // /User vote handling
 
@@ -186,7 +188,12 @@ function MovieDetails(props: MovieDetailsProps) {
                           ? (
                             <form className="movie-details__vote-form rounded-pill" onSubmit={e => handleSubmit(e)}>
                               <div className="movie-details__select-wrapper">
-                                <select className="movie-details__link" name="vote" id="user-vote">
+                                <select 
+                                  className="movie-details__link" 
+                                  name="vote" 
+                                  // id="user-vote" Para hacer accesible este input habría que agregarle algún label o algo
+                                  onChange={e => setUserRating(e.target.value)}
+                                >
                                   <option value="1">1</option>
                                   <option value="2">2</option>
                                   <option value="3">3</option>

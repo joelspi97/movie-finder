@@ -104,7 +104,7 @@ export function createSessionId(approvedToken: string) {
   };
 }
 
-export function rateMovie(sessionId: string, currentMovieId: string, userVote: number) {
+export function rateMovie(sessionId: string, currentMovieId: string, userVote: string) {
   updateAxiosController();
   
   return (dispatch: Dispatch<any>): void => {
