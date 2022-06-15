@@ -22,7 +22,7 @@ function Footer() {
         >
           <p>Want to see the source code of this website?</p>
           <a 
-            className="d-inline-block rounded" 
+            className="footer__link d-inline-block rounded" 
             href="https://github.com/joelspi97/movie-list"
             rel="noreferrer"
             target="_blank"
@@ -36,7 +36,7 @@ function Footer() {
         >
           <p>Want to see more pages I made?</p>
           <a 
-            className="d-inline-block rounded" 
+            className="footer__link d-inline-block rounded" 
             href="https://joelspinelli.herokuapp.com/"
             rel="noreferrer"
             target="_blank"
@@ -46,7 +46,18 @@ function Footer() {
         </Col>
       </Row>
       <p className="fw-bold mb-0">
-        Made by Joel Spinelli with React, TypeScript, Redux,
+        Made by {' '}
+        <a 
+            aria-label="Link to my LinkedIn profile"
+            className="footer__link rounded" 
+            href="https://www.linkedin.com/in/joel-spinelli/"
+            rel="noreferrer"
+            target="_blank"
+            title="Visit my LinkedIn profile"
+        > 
+            Joel Spinelli 
+        </a>
+        {' '} with React, TypeScript, Redux,
         <span role="img" aria-label="love"> ❤️ </span>
         and
         <span role="img" aria-label="happy pigs"> 🐷</span>

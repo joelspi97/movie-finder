@@ -62,11 +62,11 @@ function MovieList(props: MovieListProps) {
         if (event.key.toLowerCase() === 'escape') {
           setListSelected(false);
           movieList.focus();
-          document.removeEventListener('keydown', handleEscKey)
+          document.removeEventListener('keydown', handleEscKey);
         }
       }
 
-      document.addEventListener('keydown', handleEscKey)
+      document.addEventListener('keydown', handleEscKey);
     }
   }
   // /Keyboard accessibility
@@ -92,7 +92,7 @@ function MovieList(props: MovieListProps) {
     <div className="movie-list pt-5">
       <div className="movie-list__text-wrapper">
         <h2>Welcome!</h2>
-        <p className="mb-5" id="search-bar-instructions">Use the search bar to filter for specific titles.</p>
+        <p className="mb-5" id="search-bar-instructions">Use this search bar to filter for specific titles.</p>
       </div>
       <input 
         aria-labelledby="search-bar-instructions"
@@ -105,36 +105,39 @@ function MovieList(props: MovieListProps) {
       
       {
         (movies.length > 0 && !error && !movieNotFound) && (
-          <ul 
-            aria-label='Movie list. Press enter to navigate, and escape once you want to leave this section'
-            className='movie-list__list' 
-            tabIndex={movies.length > 0 ? 0 : -1} 
-            onKeyDown={(e: any) => handleKeyDown(e)}
-          >
-            {
-              movies.map((movie: any, index: number): JSX.Element => {                
-                if (movies.length === index + 1) {
+          <>
+            <span className="visually-hidden" aria-live="assertive">Movie list has finished loading</span>
+            <ul 
+              aria-label='Movie list. Press enter to navigate, and escape once you want to leave this section.'
+              className='movie-list__list' 
+              tabIndex={movies.length > 0 ? 0 : -1} 
+              onKeyDown={(e: any) => handleKeyDown(e)}
+            >
+              {
+                movies.map((movie: any, index: number): JSX.Element => {                
+                  if (movies.length === index + 1) {
+                    return (
+                      <Movie 
+                        ref={lastMovie}
+                        key={movie.id} 
+                        id={movie.id}
+                        title={movie.title}
+                        posterUrl={IMAGE_BASE_URL.concat(movie.poster_path)}
+                      />
+                    )  
+                  }
                   return (
                     <Movie 
-                      ref={lastMovie}
-                      key={movie.id} 
-                      id={movie.id}
+                      key={movie.id}
+                      id={movie.id} 
                       title={movie.title}
                       posterUrl={IMAGE_BASE_URL.concat(movie.poster_path)}
                     />
-                  )  
-                }
-                return (
-                  <Movie 
-                    key={movie.id}
-                    id={movie.id} 
-                    title={movie.title}
-                    posterUrl={IMAGE_BASE_URL.concat(movie.poster_path)}
-                  />
-                )
-              })
-            }
-          </ul>
+                  )
+                })
+              }
+            </ul>
+          </>
         )
       }
 
@@ -144,9 +147,9 @@ function MovieList(props: MovieListProps) {
             <img className="mb-5" src={errorIcon} alt="" />
             {
               errorCode === 422 
-                ? <p className="text-white h2">Please, avoid starting searchs with a blank space.</p> 
+                ? <p className="text-white h2" aria-live="assertive">Please, avoid starting searchs with a blank space. Try again.</p> 
                 : (
-                  <p className="text-white h2">
+                  <p className="text-white h2" aria-live="assertive">
                     There was an error with your search. 
                     <br />
                     Please, try again later.
@@ -164,7 +167,7 @@ function MovieList(props: MovieListProps) {
         (movieNotFound && !error) && (
           <div className="error mt-5 d-flex flex-column justify-content-center align-items-center">
             <img className="mb-5" src={movieNotFoundIcon} alt="" />
-            <p className="text-white h2">
+            <p className="text-white h2" aria-live="assertive">
               We haven't found movie titles that contain that. 
               <br />
               Please try typing something different.
@@ -175,8 +178,10 @@ function MovieList(props: MovieListProps) {
       
       {
         loading && (
-          <div className='loading text-center h-100 d-flex flex-column justify-content-center align-items-center'>
-            <div className='spinner mb-0'></div>
+          <div className="loading text-center h-100 d-flex flex-column justify-content-center align-items-center">
+            <div className="spinner mb-0">
+              <span className="visually-hidden" aria-live="assertive">Loading</span>
+            </div>
           </div>
         )
       }

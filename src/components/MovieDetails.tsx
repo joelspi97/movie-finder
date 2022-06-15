@@ -117,159 +117,164 @@ function MovieDetails(props: MovieDetailsProps) {
   // /User vote handling
 
   return (
-    <div className="movie-details container-fluid pt-5">
-      {
-        (backdrop_path && !loading && !error) && (
-          <img 
+    <>
+      <div className="movie-details container-fluid pt-5">
+        {
+          (backdrop_path && !loading && !error) && (
+            <img 
             className="movie-details__background-image"
             src={IMAGE_BASE_URL.concat(backdrop_path)} 
             alt="" 
-          />
-        )
-      }
-      <div className="movie-details__z-index">
-        <Row>
-          <Link className="movie-details__link" to="/">Go back</Link>
-        </Row>
+            />
+            )
+          }
+        <div className="movie-details__z-index">
+          <Row>
+            <Link className="movie-details__link" to="/">Go back</Link>
+          </Row>
 
-        {
-          (!loading && !error) && (
-            <>
-              <Row className="justify-content-evenly mt-5">
-                <Col lg={5} className="mb-4 mb-lg-0 px-0">
-                  <div className="movie-details__header rounded-pill">
-                    <h2>{title}</h2>
-                    <div className="movie-details__score">
-                      <span>Rating: {vote_average}</span>
-                      <span className="fst-italic h4 mb-0 ms-3">({vote_count} votes)</span>
+          {
+            (!loading && !error) && (
+              <>
+                <span className="visually-hidden" aria-live="assertive">Movie details have finished loading</span>
+                <Row className="justify-content-evenly mt-5">
+                  <Col lg={5} className="mb-4 mb-lg-0 px-0">
+                    <div className="movie-details__header rounded-pill">
+                      <h2>{title}</h2>
+                      <div className="movie-details__score">
+                        <span>Rating: {vote_average}</span>
+                        <span className="fst-italic h4 mb-0 ms-3">({vote_count} votes)</span>
+                      </div>
                     </div>
-                  </div>
-                  <div className="movie-details__body">
-                    <h3 className="movie-details__tagline">{tagline}</h3>
-                    <p className="text-center text-lg-start">{overview}</p>
-                    <div className="movie-details__movie-data">
-                      {release_date && <p><span className="fw-bold">Released on: </span>{release_date}</p>}
-                      {runtime && <p><span className="fw-bold">Runtime: </span>{runtime} minutes</p>}
-                      {
-                        genres && (
-                          <div className="movie-details__genres">
-                            <p>Genres: </p>
-                            <div>
-                              {genres.map((genre, index) => {
-                                if(index === genres.length - 1) {
-                                  return <span key={genre.id}>{genre.name}</span>
-                                }
-                                return <span key={genre.id}>{genre.name} - </span>
-                              })}
+                    <div className="movie-details__body">
+                      <h3 className="movie-details__tagline">{tagline}</h3>
+                      <p className="text-center text-lg-start">{overview}</p>
+                      <div className="movie-details__movie-data">
+                        {release_date && <p><span className="fw-bold">Released on: </span>{release_date}</p>}
+                        {runtime && <p><span className="fw-bold">Runtime: </span>{runtime} minutes</p>}
+                        {
+                          genres && (
+                            <div className="movie-details__genres">
+                              <p>Genres: </p>
+                              <div>
+                                {genres.map((genre, index) => {
+                                  if(index === genres.length - 1) {
+                                    return <span key={genre.id}>{genre.name}</span>
+                                  }
+                                  return <span key={genre.id}>{genre.name} - </span>
+                                })}
+                              </div>
                             </div>
+                          )
+                        }
+                      </div>
+                      {
+                        homepage && (
+                          <div className="text-center">
+                            <a 
+                              className="movie-details__link"
+                              href={homepage} 
+                              rel="noreferrer"
+                              target="_blank" 
+                            >
+                              Visit this movie official website
+                            </a>
                           </div>
                         )
                       }
-                    </div>
-                    {
-                      homepage && (
-                        <div className="text-center">
-                          <a 
-                            className="movie-details__link"
-                            href={homepage} 
-                            rel="noreferrer"
-                            target="_blank" 
-                          >
-                            Visit this movie official website
-                          </a>
-                        </div>
-                      )
-                    }
-                    <div className="movie-details__user-vote">
-                      {!hasVoted && <h4>Do you want to rate this movie?</h4>}
-                      {
-                        !hasVoted && ( 
-                          sessionId
-                          ? (
-                            <form className="movie-details__vote-form rounded-pill" onSubmit={e => handleSubmit(e)}>
-                              <div className="movie-details__select-wrapper">
-                                <select 
-                                  className="movie-details__link" 
-                                  name="vote" 
-                                  // id="user-vote" Para hacer accesible este input habría que agregarle algún label o algo
-                                  onChange={e => setUserRating(e.target.value)}
-                                >
-                                  <option value="1">1</option>
-                                  <option value="2">2</option>
-                                  <option value="3">3</option>
-                                  <option value="4">4</option>
-                                  <option value="5">5</option>
-                                  <option value="6">6</option>
-                                  <option value="7">7</option>
-                                  <option value="8">8</option>
-                                  <option value="9">9</option>
-                                  <option value="10">10</option>
-                                </select>
-                              </div>
-                              <button className="movie-details__link" type="submit">Submit</button>
-                            </form>
+                      <div className="movie-details__user-vote">
+                        {!hasVoted && <h4>Do you want to rate this movie?</h4>}
+                        {
+                          !hasVoted && ( 
+                            sessionId
+                            ? (
+                              <form className="movie-details__vote-form rounded-pill" onSubmit={e => handleSubmit(e)}>
+                                <div className="movie-details__select-wrapper">
+                                  <select 
+                                    // aria-label="Select how you would rate this movie on a scale from 1 to 10."
+                                    className="movie-details__link" 
+                                    name="vote" 
+                                    onChange={e => setUserRating(e.target.value)}
+                                  >
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                  </select>
+                                </div>
+                                <button className="movie-details__link" type="submit">Submit</button>
+                              </form>
+                            )
+                            : (
+                              <>
+                                <p className="my-4">
+                                  To rate a movie you need to give us permission from your TMDb account.
+                                  <br />
+                                  Follow the link below to open TMDb, and press the "Approve" button.
+                                </p>
+                                <button 
+                                  className="movie-details__link"
+                                  onClick={() => getRequestToken()}  
+                                  >
+                                  Click here to vote!
+                                </button>
+                              </>
+                            )
                           )
-                          : (
-                            <>
-                              <p className="my-4">
-                                To rate a movie you need to give us permission from your TMDb account.
-                                <br />
-                                Follow the link below to open TMDb, and press the "Approve" button.
-                              </p>
-                              <button 
-                                className="movie-details__link"
-                                onClick={() => getRequestToken()}  
-                                >
-                                Click here to vote!
-                              </button>
-                            </>
+                        }
+
+                        {
+                          hasVoted && (
+                            <p className="mb-4" aria-live="assertive">Your vote has been succesfully submitted!</p>
                           )
-                        )
-                      }
-
-                      {
-                        hasVoted && (
-                          <p className='mb-4'>Your vote has been succesfully submitted!</p>
-                        )
-                      }
-                      
+                        }
+                        
+                      </div>
                     </div>
-                  </div>
-                </Col>
-                <Col lg={5} className="text-center">
-                  <img 
-                    className="movie-details__poster"
-                    src={poster_path ? IMAGE_BASE_URL.concat(poster_path) : undefined} 
-                    alt={`${title} poster`} 
-                  />
-                </Col>
-              </Row>
-            </>
-          )
-        }
+                  </Col>
+                  <Col lg={5} className="text-center">
+                    <img 
+                      className="movie-details__poster"
+                      src={poster_path ? IMAGE_BASE_URL.concat(poster_path) : undefined} 
+                      alt={`${title} poster`} 
+                    />
+                  </Col>
+                </Row>
+              </>
+            )
+          }
 
-        { 
-          error && (
-            <div className="error movie-details__error text-center h-100 d-flex flex-column justify-content-center align-items-center">
-              <img className="mb-5" src={errorIcon} alt="" />
-              <p className="text-white mb-5">
-                An error has ocurred. 
-                <br />
-                Please, refresh the page or try again later.
-              </p> 
-            </div>
-          ) 
-        }
+          { 
+            error && (
+              <div className="error movie-details__error text-center h-100 d-flex flex-column justify-content-center align-items-center">
+                <img className="mb-5" src={errorIcon} alt="" />
+                <p className="text-white mb-5" aria-live="assertive">
+                  An error has ocurred. 
+                  <br />
+                  Please, refresh the page or try again later.
+                </p> 
+              </div>
+            ) 
+          }
 
-        {
-          loading && (
-            <div className='loading text-center h-100 d-flex flex-column justify-content-center align-items-center'>
-              <div className='spinner'></div>
-            </div>
-          )
-        }
+          {
+            loading && (
+              <div className="loading text-center h-100 d-flex flex-column justify-content-center align-items-center">
+                <div className="spinner">
+                  <span className="visually-hidden" aria-live="assertive">Loading</span>
+                </div>
+              </div>
+            )
+          }
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -51,21 +51,21 @@
         p {
             margin-bottom: 0.5rem;
         }
-        
-        a {
-            color: $light-blue;
-            font-weight: 700;
-            width: fit-content;
-            transition: color $transition ease-in-out;
+    }
 
-            &:hover {
-                color: $orange;
-            }
+    .footer__link {
+        color: $light-blue;
+        font-weight: 700;
+        width: fit-content;
+        transition: color $transition ease-in-out;
 
-            &:focus {
-                @include focus;
-                color: $orange;
-            }
+        &:hover {
+            color: $orange;
+        }
+
+        &:focus {
+            @include focus;
+            color: $orange;
         }
     }
 }
