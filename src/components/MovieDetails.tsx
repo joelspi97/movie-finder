@@ -189,11 +189,11 @@ function MovieDetails(props: MovieDetailsProps) {
                             sessionId
                             ? (
                               <form className="movie-details__vote-form rounded-pill" onSubmit={e => handleSubmit(e)}>
+                                <label htmlFor="user-vote">Select how you would rate this movie on a scale from 1 to 10.</label>
                                 <div className="movie-details__select-wrapper">
                                   <select 
-                                    // aria-label="Select how you would rate this movie on a scale from 1 to 10."
                                     className="movie-details__link" 
-                                    name="vote" 
+                                    id="user-vote"
                                     onChange={e => setUserRating(e.target.value)}
                                   >
                                     <option value="1">1</option>
@@ -207,8 +207,8 @@ function MovieDetails(props: MovieDetailsProps) {
                                     <option value="9">9</option>
                                     <option value="10">10</option>
                                   </select>
+                                  <button className="movie-details__link" type="submit">Submit<span className="visually-hidden"> your vote</span></button>
                                 </div>
-                                <button className="movie-details__link" type="submit">Submit</button>
                               </form>
                             )
                             : (

@@ -148,13 +148,21 @@
         .movie-details__vote-form {
             align-items: center;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             margin-left: auto;
             margin-right: auto;
             margin-top: 1.5rem;
             width: fit-content;
+
+            label {
+                color: $white;
+                font-weight: 700;
+                margin-bottom: 1rem;
+            }
             
             .movie-details__select-wrapper {
+                display: flex;
                 position: relative;
                 
                 &:after {
