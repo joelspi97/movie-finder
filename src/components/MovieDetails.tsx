@@ -215,12 +215,14 @@ function MovieDetails(props: MovieDetailsProps) {
                             )
                             : (
                               <>
-                                <p className="my-4">
+                                <p className="my-4" id="vote-instructions">
                                   To rate a movie you need to give us permission from your TMDb account.
                                   <br />
-                                  Follow the link below to open TMDb, and press the "Approve" button.
+                                  Follow this link to open TMDb, log in to your account and press the "Approve" button.
                                 </p>
                                 <button 
+                                  role="link"
+                                  aria-describedby="vote-instructions"
                                   className="movie-details__link"
                                   onClick={() => getRequestToken()}  
                                   >

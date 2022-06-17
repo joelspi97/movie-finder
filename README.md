@@ -1,15 +1,14 @@
-# Movie-finder project
+# Movie-finder
 
 This is a project made just for fun and practice.
 
 It features:
-* An infinite scroll list, which retrieves data from an API to display movies (GET)
-* An input which allows the user to search for specific titles (GET)
-* A details page for each movie (GET)
-* An option for users to be able to vote on movie ratings (POST)
-* An option for users to remove any previous vote on a movie (DELETE)
+* An infinite scroll list, which retrieves data from an API to display movies.
+* An input which allows the user to search for specific titles.
+* A details page for each movie that offers an option for users to be able to vote on movie ratings.
+* An accessible UI that follows the Web Content Accessibility Guidelines (WCAG) 2.1 (AAA).
 
-To build it I'm using the following:
+To build it I used the following:
 * React
 * TypeScript
 * Redux (+Thunk)
