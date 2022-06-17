@@ -190,23 +190,25 @@ function MovieDetails(props: MovieDetailsProps) {
                             ? (
                               <form className="movie-details__vote-form rounded-pill" onSubmit={e => handleSubmit(e)}>
                                 <label htmlFor="user-vote">Select how you would rate this movie on a scale from 1 to 10.</label>
-                                <div className="movie-details__select-wrapper">
-                                  <select 
-                                    className="movie-details__link" 
-                                    id="user-vote"
-                                    onChange={e => setUserRating(e.target.value)}
-                                  >
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
-                                  </select>
+                                <div className="d-flex">
+                                  <div className="movie-details__select-wrapper">
+                                    <select 
+                                      className="movie-details__link" 
+                                      id="user-vote"
+                                      onChange={e => setUserRating(e.target.value)}
+                                    >
+                                      <option value="1">1</option>
+                                      <option value="2">2</option>
+                                      <option value="3">3</option>
+                                      <option value="4">4</option>
+                                      <option value="5">5</option>
+                                      <option value="6">6</option>
+                                      <option value="7">7</option>
+                                      <option value="8">8</option>
+                                      <option value="9">9</option>
+                                      <option value="10">10</option>
+                                    </select>
+                                  </div>
                                   <button className="movie-details__link" type="submit">Submit<span className="visually-hidden"> your vote</span></button>
                                 </div>
                               </form>

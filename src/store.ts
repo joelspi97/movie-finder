@@ -14,8 +14,7 @@ const persistConfig = {
   blacklist: ['list', 'details', 'response'],
   transforms: [
     encryptTransform({
-      // This project does not have a backend, so I had to hard code the string for secretKey. 
-      // It would be better to have a backend that returned it and then obfuscate the code.
+      // It would be better to have a backend that provided the secretKey.
       secretKey: '441699a5ced8d164c26c8380befe22b3eaa6248e2b2ba841b4c939970bce49ba',
       onError: function (error) {
         console.error(error);

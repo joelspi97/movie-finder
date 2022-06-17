@@ -159,10 +159,13 @@
                 color: $white;
                 font-weight: 700;
                 margin-bottom: 1rem;
+
+                &:hover + div .movie-details__select-wrapper:after {
+                    color: $orange;
+                }
             }
-            
+
             .movie-details__select-wrapper {
-                display: flex;
                 position: relative;
                 
                 &:after {
@@ -224,7 +227,11 @@
 
     .movie-details__poster {
         border-radius: 1rem;
-        width: 100%;
+        width: 70%;
+
+        @include breakpoint(1275px) {
+            width: 100%;
+        }
 
         @include breakpoint(map-get($bp, 'lg')) {
             width: 75%;
