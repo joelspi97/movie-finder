@@ -4,13 +4,16 @@ import './scss/core/resets.scss';
 import './scss/core/generic-classes.scss';
 import App from './App';
 import { Provider } from 'react-redux';
-import movieStore from './store';
+import { store, persistor } from './store';
+import { PersistGate } from 'redux-persist/integration/react';
 
 ReactDOM.render(
-  <Provider store={movieStore}>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </Provider>,
+  <React.StrictMode>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+          <App />
+      </PersistGate>
+    </Provider>
+  </React.StrictMode>,
   document.getElementById('root')
 );

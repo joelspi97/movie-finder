@@ -12,7 +12,7 @@ const voteInitialState: VoteState = {
     hasVoted: false
 }
 
-export default function voteReducer(voteState = voteInitialState, action: MovieAction) {
+export function voteReducer(voteState = voteInitialState, action: MovieAction) {
     switch(action.type) {
         case 'SET_TOKEN':
             return {

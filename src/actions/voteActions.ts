@@ -86,7 +86,7 @@ export function createSessionId(approvedToken: string) {
         signal: abortController.signal
     })
       .then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         dispatch(setSessionId(res.data.session_id));
       })
       .catch(err => {
@@ -115,7 +115,7 @@ export function rateMovie(sessionId: string, currentMovieId: string, userVote: s
         signal: abortController.signal
     })
       .then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         dispatch(setHasVoted(true));
       })
       .catch(err => {

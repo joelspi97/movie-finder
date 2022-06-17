@@ -80,7 +80,6 @@ function MovieList(props: MovieListProps) {
     observerRef.current = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting && hasMore) { 
         getNextPage();
-        console.log(pageNumber)
       };
     });
 
