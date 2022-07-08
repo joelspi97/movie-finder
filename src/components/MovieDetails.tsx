@@ -84,8 +84,7 @@ function MovieDetails(props: MovieDetailsProps) {
 
   useEffect(() => {
     if (token) {
-      // Esta url va a haber que modificarla una vez que la página esté subida
-      window.open(`https://www.themoviedb.org/authenticate/${token}?redirect_to=http://localhost:3000/details/${currentMovieId}`, '_blank');
+      window.open(`https://www.themoviedb.org/authenticate/${token}?redirect_to=https://moviefinder-joelspinelli.herokuapp.com/details/${currentMovieId}`, '_blank');
     }
     
     if (userPermission) {
