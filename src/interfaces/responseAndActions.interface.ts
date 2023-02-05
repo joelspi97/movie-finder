@@ -5,8 +5,8 @@ export interface MovieResponse {
 }
   
 export interface MovieAction {
-    type: string;
-    payload?: any; 
+  type: string;
+  payload?: any; 
 }
 
 export interface RequestToken {

@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/static/css/main.864c4ebe.css",
+    "main.js": "/static/js/main.a66f76a0.js",
+    "static/media/no-image.png": "/static/media/no-image.c7747d1b611ce5dc0cc4.png",
+    "static/media/tmdb-attribution-logo.svg": "/static/media/tmdb-attribution-logo.bf7f470b3821af1da7fa249c87dadea3.svg",
+    "static/media/worried.svg": "/static/media/worried.b4ce202fa137254d2d4b6b8c40d31157.svg",
+    "index.html": "/index.html",
+    "static/media/red-x.svg": "/static/media/red-x.a118e9c61a86a45ffb27e884f6769a23.svg",
+    "main.864c4ebe.css.map": "/static/css/main.864c4ebe.css.map",
+    "main.a66f76a0.js.map": "/static/js/main.a66f76a0.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.864c4ebe.css",
+    "static/js/main.a66f76a0.js"
+  ]
+}
